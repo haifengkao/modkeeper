@@ -1,0 +1,54 @@
+modules:
+  - name: hq_soundclips_bg2ee
+    components:
+  - component_name: 'Install high quality soundclips for new BG2EE content: 1.2'
+    index: 0
+  - name: HerThiMoney
+    description: Heroes Thieves and Moneylenders
+    components:
+  - component_name: 'Component 1. Interjections & Mini-quests (by Austin & Arcanecoast Team): 4.2.3'
+    index: 0
+  - component_name: 'Component 2. First Calimport Bank Pack (by Scheele & Austin & Arcanecoast Team): 4.2.3'
+    index: 10
+  - component_name: 'Component 3. Shadow-Covered Love & Death (by Alisia & Austin): 4.2.3'
+    index: 20
+  - component_name: 'Component 4. The Missing Troll Case (by Alisia & Austin): 4.2.3'
+    index: 30
+  - component_name: 'Component 5. Unlocked original dialogs of all NPC (by Tipun & Austin): 4.2.3'
+    index: 40
+  - name: infinity_ui
+    components: ask
+    location:
+      github_user: Renegade0
+      repository: InfinityUI
+      branch: main
+      refresh: 1week
+  - name: turnabout
+    components:
+  - component_name: 'Ascension: Turnabout'
+    index: 0
+    location:
+      github_user: Pocket-Plane-Group
+      repository: Turnabout
+      release: v1.8
+      asset: turnabout-v1.8.iemod
+  - name: c#sodboabri
+    description: The Boareskyr Bridge Scene
+    components: ask
+    location:
+      github_user: Gibberlings3
+      repository: The_Boareskyr_Bridge_Scene
+      release: v6
+      asset:  the-boareskyr-bridge-scene-v6.iemod
+  - name: ascension
+    description: ascension - main component -> WARNs no effects added to SPPR403.spl | SPWI306.spl | spermel.itm
+    components:
+  - component_name: 'Rewritten Final Chapter of Throne of Bhaal'
+    index: 0
+    location:
+      github_user:  InfinityMods
+      repository: Ascension
+      release: "2.0.28"
+      asset: ascension-2.0.28.iemod
+    ignore_warnings: true
+
