@@ -20,15 +20,38 @@ class ModuleItem {
     this.location,
   });
 
-  factory ModuleItem.fromYaml(Map<String, dynamic> yaml) {
-    return ModuleItem(
-      name: yaml['name'],
-      description: yaml['description'],
-      components: (yaml['components'] as List<dynamic>)
+  factory ModuleItem.fromYaml(dynamic yaml) {
+    final Map<String, dynamic> yamlMap = Map<String, dynamic>.from(yaml);
+
+    List<ComponentItem> components = [];
+    final dynamic componentsData = yamlMap['components'];
+
+    if (componentsData is List) {
+      components = componentsData
           .map((component) => ComponentItem.fromYaml(component))
-          .toList(),
-      location: yaml['location'] != null
-          ? LocationItem.fromYaml(yaml['location'])
+          .toList();
+    } else if (componentsData is String) {
+      // ask does not have components
+      // e.g
+      //- name: infinity_ui
+      //  components: ask
+      //  location:
+      //  github_user: Renegade0
+      //  repository: InfinityUI
+      //  branch: main
+      //  refresh: 1week
+
+      // Handle the case when 'components' is a single string value
+      // You can customize this based on your requirements
+      components = [];
+    }
+
+    return ModuleItem(
+      name: yamlMap['name'],
+      description: yamlMap['description'],
+      components: components,
+      location: yamlMap['location'] != null
+          ? LocationItem.fromYaml(yamlMap['location'])
           : null,
     );
   }
@@ -48,10 +71,11 @@ class ComponentItem {
   factory ComponentItem.fromYaml(dynamic yaml) {
     if (yaml is String) {
       return ComponentItem(index: int.parse(yaml.split('#')[0].trim()));
-    } else if (yaml is Map<String, dynamic>) {
+    } else if (yaml is YamlMap) {
+        final Map<String, dynamic> yamlMap = Map<String, dynamic>.from(yaml);
       return ComponentItem(
-        componentName: yaml['component_name'],
-        index: yaml['index'],
+        componentName: yamlMap['component_name'],
+        index: yamlMap['index'],
       );
     } else {
       throw ArgumentError('Invalid component YAML: $yaml');
@@ -76,20 +100,21 @@ class LocationItem {
     this.refresh,
   });
 
-  factory LocationItem.fromYaml(Map<String, dynamic> yaml) {
+  factory LocationItem.fromYaml(dynamic yaml) {
+    final Map<String, dynamic> yamlMap = Map<String, dynamic>.from(yaml);
     return LocationItem(
-      githubUser: yaml['github_user'],
-      repository: yaml['repository'],
-      branch: yaml['branch'],
-      release: yaml['release'],
-      asset: yaml['asset'],
-      refresh: yaml['refresh'],
+      githubUser: yamlMap['github_user'],
+      repository: yamlMap['repository'],
+      branch: yamlMap['branch'],
+      release: yamlMap['release'],
+      asset: yamlMap['asset'],
+      refresh: yamlMap['refresh'],
     );
   }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +128,7 @@ class MyApp extends StatelessWidget {
         future: loadModDbContent(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -147,13 +172,13 @@ Future<List<ModuleItem>> loadModDbContent() async {
 class ExpandableListScreen extends StatefulWidget {
   final List<ModuleItem> modules;
 
-  const ExpandableListScreen({required this.modules});
+  const ExpandableListScreen({super.key, required this.modules});
 
   @override
-  _ExpandableListScreenState createState() => _ExpandableListScreenState();
+  ExpandableListScreenState createState() => ExpandableListScreenState();
 }
 
-class _ExpandableListScreenState extends State<ExpandableListScreen> {
+class ExpandableListScreenState extends State<ExpandableListScreen> {
   List<ModuleItem> get selectedModules =>
       widget.modules.where((module) => module.components.any((component) => component.isSelected)).toList();
 
@@ -161,7 +186,7 @@ class _ExpandableListScreenState extends State<ExpandableListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expandable List'),
+        title: const Text('Expandable List'),
       ),
       body: ListView.builder(
         itemCount: widget.modules.length,
@@ -174,7 +199,7 @@ class _ExpandableListScreenState extends State<ExpandableListScreen> {
         onPressed: () {
           copyToBeInstalledYaml(selectedModules);
         },
-        child: Icon(Icons.save),
+        child: const Icon(Icons.save),
       ),
     );
   }
@@ -183,13 +208,13 @@ class _ExpandableListScreenState extends State<ExpandableListScreen> {
 class ExpandableListItem extends StatefulWidget {
   final ModuleItem module;
 
-  const ExpandableListItem({required this.module});
+  const ExpandableListItem({super.key, required this.module});
 
   @override
-  _ExpandableListItemState createState() => _ExpandableListItemState();
+  ExpandableListItemState createState() => ExpandableListItemState();
 }
 
-class _ExpandableListItemState extends State<ExpandableListItem>
+class ExpandableListItemState extends State<ExpandableListItem>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
@@ -200,7 +225,7 @@ class _ExpandableListItemState extends State<ExpandableListItem>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
     );
     _animation = CurvedAnimation(
       parent: _animationController,
@@ -237,7 +262,7 @@ Widget build(BuildContext context) {
         sizeFactor: _animation,
         axisAlignment: 1.0,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: widget.module.components.map((component) {
               return CheckboxListTile(
