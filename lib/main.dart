@@ -1,23 +1,161 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:io';
+import 'package:yaml/yaml.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class ExpandableListScreen extends StatelessWidget {
-  final List<ListItem> items = List.generate(
-    5,
-    (index) => ListItem(
-      title: 'Item $index',
-      subItems: List.generate(
-        3,
-        (subIndex) => SubItem(
-          title: 'Sub Item $subIndex',
-          isChecked: false,
-        ),
+class ModuleItem {
+  final String name;
+  final String? description;
+  final List<ComponentItem> components;
+  final LocationItem? location;
+
+  ModuleItem({
+    required this.name,
+    this.description,
+    required this.components,
+    this.location,
+  });
+
+  factory ModuleItem.fromYaml(Map<String, dynamic> yaml) {
+    return ModuleItem(
+      name: yaml['name'],
+      description: yaml['description'],
+      components: (yaml['components'] as List<dynamic>)
+          .map((component) => ComponentItem.fromYaml(component))
+          .toList(),
+      location: yaml['location'] != null
+          ? LocationItem.fromYaml(yaml['location'])
+          : null,
+    );
+  }
+}
+
+class ComponentItem {
+  final String? componentName;
+  final int index;
+  bool isSelected;
+
+  ComponentItem({
+    this.componentName,
+    required this.index,
+    this.isSelected = false,
+  });
+
+  factory ComponentItem.fromYaml(dynamic yaml) {
+    if (yaml is String) {
+      return ComponentItem(index: int.parse(yaml.split('#')[0].trim()));
+    } else if (yaml is Map<String, dynamic>) {
+      return ComponentItem(
+        componentName: yaml['component_name'],
+        index: yaml['index'],
+      );
+    } else {
+      throw ArgumentError('Invalid component YAML: $yaml');
+    }
+  }
+}
+
+class LocationItem {
+  final String githubUser;
+  final String repository;
+  final String? branch;
+  final String? release;
+  final String? asset;
+  final String? refresh;
+
+  LocationItem({
+    required this.githubUser,
+    required this.repository,
+    this.branch,
+    this.release,
+    this.asset,
+    this.refresh,
+  });
+
+  factory LocationItem.fromYaml(Map<String, dynamic> yaml) {
+    return LocationItem(
+      githubUser: yaml['github_user'],
+      repository: yaml['repository'],
+      branch: yaml['branch'],
+      release: yaml['release'],
+      asset: yaml['asset'],
+      refresh: yaml['refresh'],
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ModKeeper',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-    ),
-  );
+      home: FutureBuilder<List<ModuleItem>>(
+        future: loadModDbContent(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final modules = snapshot.data!;
+            return ExpandableListScreen(modules: modules);
+          }
+        },
+      ),
+    );
+  }
+}
+
+Future<List<ModuleItem>> loadModDbContent() async {
+  final yamlString = await rootBundle.loadString('assets/default_mod_db.yml');
+  final yamlMap = loadYaml(yamlString);
+  final modules = (yamlMap['modules'] as List<dynamic>)
+      .map((module) => ModuleItem.fromYaml(module))
+      .toList();
+  return modules;
+}
+
+ void copyToBeInstalledYaml(List<ModuleItem> selectedModules) {
+    final file = File('toBeInstalled.yml');
+    final buffer = StringBuffer();
+    buffer.writeln('modules:');
+
+    for (final module in selectedModules) {
+      buffer.writeln('  - name: ${module.name}');
+      buffer.writeln('    components:');
+      for (final component in module.components) {
+        if (component.isSelected) {
+          buffer.writeln('      - component_name: ${component.componentName}');
+          buffer.writeln('        index: ${component.index}');
+        }
+      }
+    }
+
+    file.writeAsStringSync(buffer.toString());
+  }
+
+class ExpandableListScreen extends StatefulWidget {
+  final List<ModuleItem> modules;
+
+  const ExpandableListScreen({required this.modules});
+
+  @override
+  _ExpandableListScreenState createState() => _ExpandableListScreenState();
+}
+
+class _ExpandableListScreenState extends State<ExpandableListScreen> {
+  List<ModuleItem> get selectedModules =>
+      widget.modules.where((module) => module.components.any((component) => component.isSelected)).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +164,26 @@ class ExpandableListScreen extends StatelessWidget {
         title: Text('Expandable List'),
       ),
       body: ListView.builder(
-        itemCount: items.length,
+        itemCount: widget.modules.length,
         itemBuilder: (context, index) {
-          final item = items[index];
-          return ExpandableListItem(item: item);
+          final module = widget.modules[index];
+          return ExpandableListItem(module: module);
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          copyToBeInstalledYaml(selectedModules);
+        },
+        child: Icon(Icons.save),
       ),
     );
   }
 }
 
 class ExpandableListItem extends StatefulWidget {
-  final ListItem item;
+  final ModuleItem module;
 
-  const ExpandableListItem({required this.item});
+  const ExpandableListItem({required this.module});
 
   @override
   _ExpandableListItemState createState() => _ExpandableListItemState();
@@ -81,83 +225,35 @@ class _ExpandableListItemState extends State<ExpandableListItem>
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: Text(widget.item.title),
-          onTap: _toggleExpansion,
-        ),
-        SizeTransition(
-          sizeFactor: _animation,
-          axisAlignment: 1.0,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: widget.item.subItems.map((subItem) {
-                return CheckboxListTile(
-                  title: Text(subItem.title),
-                  value: subItem.isChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      subItem.isChecked = value!;
-                    });
-                  },
-                );
-              }).toList(),
-            ),
+@override
+Widget build(BuildContext context) {
+  return Column(
+    children: [
+      ListTile(
+        title: Text(widget.module.name),
+        onTap: _toggleExpansion,
+      ),
+      SizeTransition(
+        sizeFactor: _animation,
+        axisAlignment: 1.0,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: widget.module.components.map((component) {
+              return CheckboxListTile(
+                title: Text(component.componentName ?? ''),
+                value: component.isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    component.isSelected = value!;
+                  });
+                },
+              );
+            }).toList(),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class ListItem {
-  final String title;
-  final List<SubItem> subItems;
-
-  ListItem({required this.title, required this.subItems});
-}
-
-class SubItem {
-  String title;
-  bool isChecked;
-
-  SubItem({required this.title, required this.isChecked});
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ModKeeper',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
       ),
-    //   home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    home: ExpandableListScreen(),
-    );
-  }
+    ],
+  );
 }
-
+}
