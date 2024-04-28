@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:modkeeper/main.dart';
 
 import 'module_item.dart';
-import 'component_item.dart';
 
 class ModuleSelectionScreen extends StatefulWidget {
   final List<ModuleItem> modules;
@@ -96,9 +95,9 @@ class ExpandableListItemState extends State<ExpandableListItem>
             value: isAllSelected(),
             onChanged: (value) {
               setState(() {
-                widget.module.components.forEach((component) {
+                for (var component in widget.module.components) {
                   component.isSelected = value!;
-                });
+                }
 
                 if (!isExpanded) {
                   _toggleExpansion();

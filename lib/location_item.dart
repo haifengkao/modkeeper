@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:io';
-import 'package:yaml/yaml.dart';
 
 class LocationItem {
   final String githubUser;
