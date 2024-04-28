@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:modkeeper/expandable_list_screen.dart';
+import 'package:modkeeper/module_selection_screen.dart';
 import 'dart:io';
 import 'package:yaml/yaml.dart';
 import 'module_item.dart';
+import 'package:path/path.dart' as path;
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
             return Text('Error: ${snapshot.error}');
           } else {
             final modules = snapshot.data!;
-            return ExpandableListScreen(modules: modules);
+            return ModuleSelectionScreen(modules: modules);
           }
         },
       ),
@@ -63,4 +64,6 @@ void copyToBeInstalledYaml(List<ModuleItem> selectedModules) {
   }
 
   file.writeAsStringSync(buffer.toString());
+  final absolutePath = path.absolute(file.path); // Get the absolute path using the `absolute` function from the `path` package
+  print("toBeInstalled.yml has been created. $absolutePath"); // Print the absolute path
 }

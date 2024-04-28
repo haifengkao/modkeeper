@@ -4,16 +4,16 @@ import 'package:modkeeper/main.dart';
 import 'module_item.dart';
 import 'component_item.dart';
 
-class ExpandableListScreen extends StatefulWidget {
+class ModuleSelectionScreen extends StatefulWidget {
   final List<ModuleItem> modules;
 
-  const ExpandableListScreen({super.key, required this.modules});
+  const ModuleSelectionScreen({super.key, required this.modules});
 
   @override
-  ExpandableListScreenState createState() => ExpandableListScreenState();
+  ModuleSelectionScreenState createState() => ModuleSelectionScreenState();
 }
 
-class ExpandableListScreenState extends State<ExpandableListScreen> {
+class ModuleSelectionScreenState extends State<ModuleSelectionScreen> {
   List<ModuleItem> get selectedModules => widget.modules
       .where((module) =>
           module.components.any((component) => component.isSelected))
@@ -92,8 +92,26 @@ class ExpandableListItemState extends State<ExpandableListItem>
     return Column(
       children: [
         ListTile(
+          leading: Checkbox(
+            value: isAllSelected(),
+            onChanged: (value) {
+              setState(() {
+                widget.module.components.forEach((component) {
+                  component.isSelected = value!;
+                });
+
+                if (!isExpanded) {
+                  _toggleExpansion();
+                }
+              });
+            },
+          ),
           title: Text(widget.module.name),
-          onTap: _toggleExpansion,
+          onTap: () {
+            setState(() {
+              _toggleExpansion();
+            });
+          },
         ),
         SizeTransition(
           sizeFactor: _animation,
@@ -108,8 +126,17 @@ class ExpandableListItemState extends State<ExpandableListItem>
                   onChanged: (value) {
                     setState(() {
                       component.isSelected = value!;
+                      // Update the parent checkbox state based on the children's state
+                      if (isAllSelected() && !isExpanded) {
+                        _toggleExpansion();
+                      }
+
+                      if (isAllUnselected() && !isExpanded) {
+                        _toggleExpansion();
+                      }
                     });
                   },
+                  controlAffinity: ListTileControlAffinity.leading,
                 );
               }).toList(),
             ),
@@ -117,5 +144,20 @@ class ExpandableListItemState extends State<ExpandableListItem>
         ),
       ],
     );
+  }
+
+  bool isAllSelected() {
+    if (widget.module.components.isEmpty) {
+      return false;
+    }
+
+    return widget.module.components.every((component) => component.isSelected);
+  }
+  bool isAllUnselected() {
+    if (widget.module.components.isEmpty) {
+      return false;
+    }
+
+    return widget.module.components.every((component) => !component.isSelected);
   }
 }
