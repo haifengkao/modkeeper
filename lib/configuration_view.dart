@@ -17,35 +17,36 @@ class PathField {
 class ConfigurationView extends StatefulWidget {
   final Function(Map<String, String>) onSaveConfiguration;
 
-  ConfigurationView({required this.onSaveConfiguration});
+  const ConfigurationView({super.key, required this.onSaveConfiguration});
 
   @override
-  _ConfigurationViewState createState() => _ConfigurationViewState();
+  ConfigurationViewState createState() => ConfigurationViewState();
 }
 
-class _ConfigurationViewState extends State<ConfigurationView> {
-  List<PathField> pathFields = [
-    PathField(
-      label: 'Baldur\'s Gate Enhanced Edition',
-      validator: validateGamePath,
-    ),
-    PathField(
-      label: 'Baldur\'s Gate II Enhanced Edition',
-      validator: validateGamePath,
-    ),
-    PathField(
-      label: 'Weidu Executable',
-      validator: validatePath,
-    ),
-    PathField(
-      label: 'Mod Download Folder',
-      validator: validatePath,
-    ),
-    PathField(
-      label: 'Mod Installation Folder',
-      validator: validatePath,
-    ),
-  ];
+List<PathField> defaultPathSettings = [
+  PathField(
+    label: 'Baldur\'s Gate Enhanced Edition',
+    validator: validateGamePath,
+  ),
+  PathField(
+    label: 'Baldur\'s Gate II Enhanced Edition',
+    validator: validateGamePath,
+  ),
+  PathField(
+    label: 'Weidu Executable',
+    validator: validatePath,
+  ),
+  PathField(
+    label: 'Mod Download Folder',
+    validator: validatePath,
+  ),
+  PathField(
+    label: 'Mod Installation Folder',
+    validator: validatePath,
+  ),
+];
+class ConfigurationViewState extends State<ConfigurationView> {
+  List<PathField> pathFields = defaultPathSettings;
 
   Map<String, String> pathValues = {};
   Map<String, String> pathStatuses = {};
@@ -53,7 +54,7 @@ class _ConfigurationViewState extends State<ConfigurationView> {
   @override
   void initState() {
     super.initState();
-    for (var field in pathFields) {
+    for (var field in defaultPathSettings) {
       pathValues[field.label] = field.initialPath;
       pathStatuses[field.label] = '';
     }
@@ -63,18 +64,18 @@ class _ConfigurationViewState extends State<ConfigurationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Configuration'),
+        title: const Text('Configuration'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ...pathFields.map((field) => buildPathField(field)),
-            SizedBox(height: 16),
+            ...defaultPathSettings.map((field) => buildPathField(field)),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: saveConfiguration,
-              child: Text('Save Configuration'),
+              child: const Text('Save Configuration'),
             ),
           ],
         ),
@@ -88,9 +89,9 @@ class _ConfigurationViewState extends State<ConfigurationView> {
       children: [
         Text(
           field.label,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
@@ -100,13 +101,13 @@ class _ConfigurationViewState extends State<ConfigurationView> {
                 decoration: InputDecoration(
                   hintText: 'Select path',
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.folder_open),
+                    icon: const Icon(Icons.folder_open),
                     onPressed: () => selectPath(field),
                   ),
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               pathStatuses[field.label]!,
               style: TextStyle(
@@ -115,7 +116,7 @@ class _ConfigurationViewState extends State<ConfigurationView> {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -131,18 +132,19 @@ class _ConfigurationViewState extends State<ConfigurationView> {
     }
   }
 
-  bool validateGamePath(String path) {
-    // Add your logic to validate the game path
-    // For example, check if the path contains the necessary game files
-    return Directory(path).existsSync();
-  }
-
-  bool validatePath(String path) {
-    return Directory(path).existsSync();
-  }
 
   void saveConfiguration() {
     widget.onSaveConfiguration(pathValues);
     Navigator.pop(context);
   }
+}
+
+bool validateGamePath(String path) {
+  // Add your logic to validate the game path
+  // For example, check if the path contains the necessary game files
+  return Directory(path).existsSync();
+}
+
+bool validatePath(String path) {
+  return Directory(path).existsSync();
 }

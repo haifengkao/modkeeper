@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 import 'module_item.dart';
 import 'package:path/path.dart' as path;
+import 'configuration_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,18 +22,63 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: FutureBuilder<List<ModuleItem>>(
-        future: loadModDbContent(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            final modules = snapshot.data!;
-            return ModuleSelectionScreen(modules: modules);
-          }
+      home: const MyHomePage()
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  MyHomePageState createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  bool showConfigurationView = false;
+  Map<String, String> configurationSettings = {};
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ModKeeper'),
+      ),
+      body: Stack(
+        children: [
+          FutureBuilder<List<ModuleItem>>(
+            future: loadModDbContent(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                final modules = snapshot.data!;
+                return ModuleSelectionScreen(modules: modules);
+              }
+            },
+          ),
+          Visibility(
+            visible: showConfigurationView,
+            child: ConfigurationView(
+              onSaveConfiguration: (settings) {
+                setState(() {
+                  configurationSettings = settings;
+                  showConfigurationView = false;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            showConfigurationView = true;
+          });
         },
+        child: const Icon(Icons.settings),
       ),
     );
   }
