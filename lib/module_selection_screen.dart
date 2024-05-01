@@ -120,6 +120,7 @@ class ExpandableListItemState extends State<ExpandableListItem>
             child: Column(
               children: widget.module.components.map((component) {
                 return CheckboxListTile(
+                  dense: true,
                   title: Text(component.componentName ?? ''),
                   value: component.isSelected,
                   onChanged: (value) {
