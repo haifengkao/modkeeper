@@ -81,7 +81,7 @@ class MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.settings, size: 40),
             onPressed: () {
               setState(() {
-                showConfigurationView = true;
+                showConfigurationView = !showConfigurationView;
               });
             },
           ),
