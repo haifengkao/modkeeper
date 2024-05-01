@@ -45,19 +45,25 @@ List<PathField> defaultPathSettings = [
     validator: validatePath,
   ),
 ];
-class ConfigurationViewState extends State<ConfigurationView> {
-  List<PathField> pathFields = defaultPathSettings;
 
-  Map<String, String> pathValues = {};
-  Map<String, String> pathStatuses = {};
+class ConfigurationViewState extends State<ConfigurationView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Map<String, TextEditingController> _controllers = {};
 
   @override
   void initState() {
     super.initState();
     for (var field in defaultPathSettings) {
-      pathValues[field.label] = field.initialPath;
-      pathStatuses[field.label] = '';
+      _controllers[field.label] = TextEditingController(text: field.initialPath);
     }
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -68,16 +74,19 @@ class ConfigurationViewState extends State<ConfigurationView> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ...defaultPathSettings.map((field) => buildPathField(field)),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: saveConfiguration,
-              child: const Text('Save Configuration'),
-            ),
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ...defaultPathSettings.map(buildPathField).toList(),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: saveConfiguration,
+                child: const Text('Save Configuration'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -87,34 +96,29 @@ class ConfigurationViewState extends State<ConfigurationView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          field.label,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            field.label,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: TextEditingController(text: pathValues[field.label]),
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintText: 'Select path',
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.folder_open),
-                    onPressed: () => selectPath(field),
-                  ),
-                ),
-              ),
+        TextFormField(
+          controller: _controllers[field.label],
+          readOnly: true,
+          decoration: InputDecoration(
+            hintText: 'Select path',
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.folder_open),
+              onPressed: () => selectPath(field),
             ),
-            const SizedBox(width: 8),
-            Text(
-              pathStatuses[field.label]!,
-              style: TextStyle(
-                color: pathStatuses[field.label] == 'Valid' ? Colors.green : Colors.red,
-              ),
-            ),
-          ],
+          ),
+          validator: (value) {
+            if (value == null || !field.validator(value)) {
+              return 'Invalid Path';
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 16),
       ],
@@ -123,25 +127,23 @@ class ConfigurationViewState extends State<ConfigurationView> {
 
   Future<void> selectPath(PathField field) async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-
     if (selectedDirectory != null) {
       setState(() {
-        pathValues[field.label] = selectedDirectory;
-        pathStatuses[field.label] = field.validator(selectedDirectory) ? 'Valid' : 'Invalid';
+        _controllers[field.label]?.text = selectedDirectory;
       });
     }
   }
 
-
   void saveConfiguration() {
-    widget.onSaveConfiguration(pathValues);
+    if (_formKey.currentState!.validate()) {
+      Map<String, String> pathValues = {for (var field in defaultPathSettings) field.label: _controllers[field.label]!.text};
+      widget.onSaveConfiguration(pathValues);
+    }
     Navigator.pop(context);
   }
 }
 
 bool validateGamePath(String path) {
-  // Add your logic to validate the game path
-  // For example, check if the path contains the necessary game files
   return Directory(path).existsSync();
 }
 
