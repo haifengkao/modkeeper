@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:modkeeper/module_selection_screen.dart';
+import 'package:modkeeper/utilities.dart';
 import 'dart:io';
 import 'package:yaml/yaml.dart';
 import 'module_item.dart';
@@ -38,6 +39,22 @@ class MyHomePageState extends State<MyHomePage> {
   bool showConfigurationView = false;
   Map<String, String> configurationSettings = {};
 
+  var futureLoadingWidget = FutureLoadingWidget<List<ModuleItem>>(
+    future: loadModDbContent(),
+    dataBuilder: (context, modules) => ModuleSelectionScreen(modules: modules),
+  );
+
+  Widget createConfigurationView() {
+    return ConfigurationView(
+      onSaveConfiguration: (settings) {
+        setState(() {
+          configurationSettings = settings;
+          showConfigurationView = false;
+        });
+      },
+    ).visibility(showConfigurationView);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,30 +63,8 @@ class MyHomePageState extends State<MyHomePage> {
       ),
       body: Stack(
         children: [
-          FutureBuilder<List<ModuleItem>>(
-            future: loadModDbContent(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                final modules = snapshot.data!;
-                return ModuleSelectionScreen(modules: modules);
-              }
-            },
-          ),
-          Visibility(
-            visible: showConfigurationView,
-            child: ConfigurationView(
-              onSaveConfiguration: (settings) {
-                setState(() {
-                  configurationSettings = settings;
-                  showConfigurationView = false;
-                });
-              },
-            ),
-          ),
+          futureLoadingWidget,
+          createConfigurationView(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
