@@ -7,6 +7,7 @@ import 'package:yaml/yaml.dart';
 import 'module_item.dart';
 import 'package:path/path.dart' as path;
 import 'configuration_view.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,6 +44,21 @@ class MyHomePageState extends State<MyHomePage> {
     future: loadModDbContent(),
     dataBuilder: (context, modules) => ModuleSelectionScreen(modules: modules),
   );
+  @override
+  void initState() {
+    super.initState();
+    checkConfigFile();
+  }
+
+  Future<void> checkConfigFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final configFile = File('${directory.path}/config.yml');
+    if (!await configFile.exists()) {
+      setState(() {
+        showConfigurationView = true;
+      });
+    }
+  }
 
   Widget createConfigurationView() {
     return ConfigurationView(
@@ -52,7 +68,7 @@ class MyHomePageState extends State<MyHomePage> {
           showConfigurationView = false;
         });
       },
-    ).visibility(showConfigurationView);
+    );
   }
 
   @override
@@ -60,20 +76,22 @@ class MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ModKeeper'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              setState(() {
+                showConfigurationView = true;
+              });
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: [
           futureLoadingWidget,
-          createConfigurationView(),
+          if (showConfigurationView) createConfigurationView(),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            showConfigurationView = true;
-          });
-        },
-        child: const Icon(Icons.settings),
       ),
     );
   }
