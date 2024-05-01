@@ -78,7 +78,7 @@ class MyHomePageState extends State<MyHomePage> {
         title: const Text('ModKeeper'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings, size: 40),
             onPressed: () {
               setState(() {
                 showConfigurationView = true;

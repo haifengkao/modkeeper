@@ -105,7 +105,8 @@ class ConfigurationViewState extends State<ConfigurationView> {
         ),
         TextFormField(
           controller: _controllers[field.label],
-          readOnly: true,
+          readOnly: false,
+          autocorrect: false,
           decoration: InputDecoration(
             hintText: 'Select path',
             suffixIcon: IconButton(
@@ -119,6 +120,7 @@ class ConfigurationViewState extends State<ConfigurationView> {
             }
             return null;
           },
+          autovalidateMode: AutovalidateMode.onUserInteraction,  // Add this line
         ),
         const SizedBox(height: 16),
       ],
@@ -135,11 +137,11 @@ class ConfigurationViewState extends State<ConfigurationView> {
   }
 
   void saveConfiguration() {
-    if (_formKey.currentState!.validate()) {
+    // don't validate at all
+    // it's better let user try this app without proper settings
+    // if (_formKey.currentState!.validate()) {
       Map<String, String> pathValues = {for (var field in defaultPathSettings) field.label: _controllers[field.label]!.text};
       widget.onSaveConfiguration(pathValues);
-    }
-    Navigator.pop(context);
   }
 }
 
