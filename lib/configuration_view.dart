@@ -48,7 +48,7 @@ List<PathField> defaultPathSettings = [
 
 class ConfigurationViewState extends State<ConfigurationView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Map<String, TextEditingController> _controllers = {};
+  final Map<String, TextEditingController> _controllers = {};
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class ConfigurationViewState extends State<ConfigurationView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ...defaultPathSettings.map(buildPathField).toList(),
+              ...defaultPathSettings.map(buildPathField),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: saveConfiguration,

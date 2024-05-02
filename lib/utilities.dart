@@ -15,12 +15,12 @@ class FutureLoadingWidget<T> extends StatelessWidget {
   final Widget Function(Object? error)? errorWidget;
 
   const FutureLoadingWidget({
-    Key? key,
+    super.key,
     required this.future,
     required this.dataBuilder,
     this.loadingWidget,
     this.errorWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +29,14 @@ class FutureLoadingWidget<T> extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           // Show the custom loading widget or a default one if not provided
-          return loadingWidget ?? CircularProgressIndicator();
+          return loadingWidget ?? const CircularProgressIndicator();
         }
         if (snapshot.hasError) {
           // Show the custom error widget or a default one if not provided
           return errorWidget?.call(snapshot.error) ?? Text('Error: ${snapshot.error}');
         }
         // Data is available, use the dataBuilder to build the widget
-        return dataBuilder(context, snapshot.data!);
+        return dataBuilder(context, snapshot.data as T);
       },
     );
   }
