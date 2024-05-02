@@ -19,16 +19,16 @@ class ModTab {
 
 List<ModTab> _modTabs = [
   ModTab(
-    title: 'Installation Logs',
-    buildView: () => Center(child: Text('Installation Logs')),
+    title: 'Logs',
+    buildView: () => const Center(child: Text('Installation Logs')),
   ),
   ModTab(
     title: 'Mod Info',
-    buildView: () => Center(child: Text('Mod Info')),
+    buildView: () => const Center(child: Text('Mod Info')),
   ),
   ModTab(
     title: 'Mod Conflicts',
-    buildView: () => Center(child: Text('Mod Conflicts')),
+    buildView: () => const Center(child: Text('Mod Conflicts')),
   ),
 ];
 
@@ -110,6 +110,36 @@ class MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget createRightToolbar() {
+    const iconSize = 40.0;
+    return Container(
+      color: Colors.grey[200],
+      child: Column(
+        children: [
+          const Spacer(), // Add a spacer widget here
+          IconButton(
+            icon: const Icon(Icons.settings, size: iconSize),
+            onPressed: () {
+              setState(() {
+                showConfigurationView = !showConfigurationView;
+              });
+            },
+          ),
+          const Spacer(), // Add a spacer widget here
+          const Spacer(), // Add a spacer widget here
+          IconButton(
+            icon: const Icon(Icons.play_arrow, size: iconSize),
+            onPressed: () {
+              // Handle install (save) button press
+              copyToBeInstalledYaml([]);
+            },
+          ),
+          const Spacer(), // Add a spacer widget here
+        ],
+      ),
+    );
+  }
+
   Widget resizeableContainer() {
     return ResizableContainer(
       direction: Axis.horizontal,
@@ -122,27 +152,23 @@ class MyHomePageState extends State<MyHomePage> {
           child: futureLoadingWidget,
         ),
         ResizableChildData(
-          startingRatio: 0.7,
+          startingRatio: 0.65,
           child: createTabView()
+        ),
+        ResizableChildData(
+            startingRatio: 0.05,
+            child: createRightToolbar()
         ),
       ],
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('ModKeeper'),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.settings, size: 40),
-              onPressed: () {
-                setState(() {
-                  showConfigurationView = !showConfigurationView;
-                });
-              },
-            ),
-          ],
+          backgroundColor: Theme.of(context).primaryColorLight
         ),
         body: Stack(
           children: [

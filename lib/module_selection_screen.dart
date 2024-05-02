@@ -30,13 +30,7 @@ class ModuleSelectionScreenState extends State<ModuleSelectionScreen> {
           final module = widget.modules[index];
           return ExpandableListItem(module: module);
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          copyToBeInstalledYaml(selectedModules);
-        },
-        child: const Icon(Icons.save),
-      ),
+      )
     );
   }
 }
