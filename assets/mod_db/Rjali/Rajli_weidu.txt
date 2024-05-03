@@ -1,0 +1,76 @@
+// Log of Currently Installed WeiDU Mods
+// The top of the file is the 'oldest' mod
+// ~TP2_File~ #language_number #component_number // [Subcomponent Name -> ] Component Name [ : Version]
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #130 // Force All Dialogue to Pause Game: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #170 // Unique Icons: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #181 // Unique Containers -> Unique icons only: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #200 // Remove Blur Effect from Items, e.g. Cloack of Displacement: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #1010 // More Interjections: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #1080 // Add Bags of Holding: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #1160 // Multiple Strongholds (Baldurdash) -> No Restrictions (Baldurdash): v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2060 // Weapon Styles for All: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2090 // Change Experience Point Cap -> Remove Experience Cap: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2100 // Allow Thieving and Stealth in Heavy Armor: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2120 // Allow Arcane Spellcasting in Heavy Armor: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2151 // Wear Multiple Protection Items -> No Restrictions: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2200 // Multi-Class Grandmastery (Weimer): v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2210 // Change Grandmastery Bonuses -> True Grandmastery (Baldurdash): v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2352 // Alter Multiclass Restrictions -> Install both of the above options: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2360 // Remove Racial Restrictions for Single Classes: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2420 // Loosen Equipment Restrictions for Cleric Multi-Classes: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2430 // Change Equipment Restrictions for Druid Multi-Classes -> Loosen Equipment Restrictions for Druid Multi-Classes: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2440 // Everyone Gets Bonus APR from Specialization: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2520 // Allow Mages to Use Bucklers and Thieves to Use Small Shields (Angel): v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #2999 // Max HP at Level One: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3000 // Higher HP on Level Up -> Maximum: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3008 // Allow HP Rolls Through Level 20 (Angel): v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3012 // Maximum HP for NPCs (the bigg) -> For Party-Joinable NPCs Only: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3020 // Identify All Items: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3031 // Easy Spell Learning -> 100% Learn Spells and No Maximum Cap: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3040 // Make Bags of Holding Bottomless: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3050 // Remove fatigue from restoration spells: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3080 // Increase Ammo Stack Size -> Unlimited Ammo Stacking: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3090 // Increase Gem and Jewelry Stacking -> Unlimited Gem and Jewelry Stacking: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3100 // Increase Potion Stacking -> Unlimited Potion Stacking: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3110 // Increase Scroll Stacking -> Unlimited Scroll Stacking: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3120 // Happy Patch (Party NPCs do not complain about reputation) -> NPCs Are Never Angry About Reputation: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3123 // NPCs Don't Fight: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3124 // Stop Haer'Dalis-Aerie romance from starting: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3150 // Turn Off The Hideous Cloak-of-Mirroring, Spell-Trap, and Physical Mirror Animations: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3170 // No Drow Avatars On Party In Underdark: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3200 // Sellable Items (Icelus): v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #3205 // Stores Purchase All Item Types: v4
+~CDTWEAKS/SETUP-CDTWEAKS.TP2~ #0 #4140 // Don't Auto-Assign Advanced AI Scripting to Party: v4
+~SETUP-SEMI_MULTI_CLERICS.TP2~ #0 #0 // Semi-multi-clerics
+~SETUP-NPCFLIRT.TP2~ #0 #0 // Aerie Flirt Pack For SOA: v1.03
+~SETUP-NPCFLIRT.TP2~ #0 #2 // Aerie Flirt Pack For TOB: v1.03
+~SETUP-NPCFLIRT.TP2~ #0 #4 // Jaheira Flirt Pack for SOA: v1.03
+~SETUP-NPCFLIRT.TP2~ #0 #6 // Jaheira Flirt Pack for TOB: v1.03
+~SETUP-NPCFLIRT.TP2~ #0 #8 // Viconia Flirt Pack for SOA: v1.03
+~SETUP-NPCFLIRT.TP2~ #0 #10 // Viconia Flirt Pack for TOB: v1.03
+~IMOENROMANCE/SETUP-IMOENROMANCE.TP2~ #0 #0 // Imoen NPC Romance Mod for BG2:SoA TOB (3.9.6 Version!): 3.9.6
+~IMOENROMANCE/SETUP-IMOENROMANCE.TP2~ #0 #1 // Romance Option -> Allow Multiple Romance's: 3.9.6
+~SIRENE_BG2/SIRENE_BG2.TP2~ #0 #0 // Sirene NPC for BG2:EE
+~SIRENE_BG2/SIRENE_BG2.TP2~ #0 #2 // Choose an alternate class for Sirene? -> Cavalier
+~SKIE/SETUP-SKIE.TP2~ #1 #0 // Skie NPC - BG2
+~PETSY/PETSY.TP2~ #0 #0 // Petsy Chattertone
+~BRANWEN/SETUP-BRANWEN.TP2~ #0 #0 // Branwen BG2 NPC mod for players and modders: v3
+~YVETTE/SETUP-YVETTE.TP2~ #0 #0 // Yvette Romance - BG2 Romance Character: 2.0_Isaya
+~TASHIA/SETUP-TASHIA.TP2~ #0 #0 // Tashia NPC Full version (ToB required): v1.6
+~TASHIA/SETUP-TASHIA.TP2~ #0 #2 // Tashia Add-on Pack by Bri and Lord Ernie (English only, Tashia ToB Required) -> Baldurized Dialogues: v1.6
+~DEARNISE/SETUP-DEARNISE.TP2~ #0 #0 // de'Arnise Romance for Baldur's Gate II: v6
+~TYRISFLARE/SETUP-TYRISFLARE.TP2~ #0 #0 // Tyris Flare NPC: v7
+~NINDE/NINDE.TP2~ #0 #0 // Ninde NPC Mod for BGII: v2
+~DACE_EET/DACE_EET.TP2~ #0 #0 // Dace Linton NPC Mod for EET: V 3.1
+~ISRA_BG2/ISRA_BG2.TP2~ #0 #0 // Isra for BGII: v3
+~ISRA_BG2/ISRA_BG2.TP2~ #0 #1 // Crossmod Content: v3
+~SAERILETH/SETUP-SAERILETH.TP2~ #0 #0 // Saerileth Romance Mod (BG2:SoA & TOB NPC) created by nethrin and Sillara: v20
+~AMBER_EET/SETUP-AMBER_EET.TP2~ #0 #0 // Amber the NPC MOD for BG2EE and EET: v5.01
+~AMBER_EET/SETUP-AMBER_EET.TP2~ #0 #1 // Amber ToB New Content (English Only): v5.01
+~FADE/SETUP-FADE.TP2~ #0 #0 // Fade: An NPC for Baldur's Gate II: SoA and ToB: BETA 7.3
+~SETUP-SHEENA.TP2~ #0 #0 // Install A Half Dragon Tale: v2.6
+~ETERNALIMOEN/SETUP-ETERNALIMOEN.TP2~ #0 #0 // EternalImoen created nullset: v6.3
+~ETERNALIMOEN/SETUP-ETERNALIMOEN.TP2~ #0 #1 // Imoen's New Mage/Thief Multi Class Type: v6.3
+~RJALI/SETUP-RJALI.TP2~ #0 #1 // Parking Expedite -> Mod Timing A Little Faster: v10.7
+~RJALI/SETUP-RJALI.TP2~ #0 #3 // Rjali Romance Mod (BG2EE:SoA & TOB NPC) created by nullset: v10.7
+~RJALI/SETUP-RJALI.TP2~ #0 #4 // Rjali's Equipment: v10.7

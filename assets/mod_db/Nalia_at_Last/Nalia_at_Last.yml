@@ -1,0 +1,9 @@
+modules:
+  - module_name: Nalia at Last
+    description: A Standalone Nalia Romance for ToB with a Romance Branch to continue a romance from De'Arnise Romance or Arnel's Nalia Romance
+    components: []
+    location:
+      github_user: Skitia
+      repository: Nalia_At_Last
+      release: v1.12
+      asset: v1.12.zip
