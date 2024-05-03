@@ -24,13 +24,10 @@ modules:
           - ISRA_BG2
           - SAERILETH
     load_orders:
-      - source: Readme-Rjali.txt # you don't need to install other multi-romance mods
-        type: mlox
-        data: Rajli_conflict_mlox.txt
       - source: Readme-Rjali.txt
         type: strict_weidu # all components must be installed in the order of weidu file
         data: Rajli_weidu.txt
-      - source: "Nota: BG2EE v2's new ADVANCED AI breaks dialogues, especially for all types of rogue who are forever going into and out of search-for-traps mode. I recommend that you not use it. Unfortunately, it is the default, so you have to manually change it for each member of your party including your PC and any new join/rejoin NPCs. It is set for the PC only after Imoen joins in Chateau Irenicus. If you use the equip option, I replace all the ADVANCED AI default scripts with the AGEN script; this eliminates the possibility of using the ADVANCED AI." (source http://forums.blackwyrmlair.net/index.php?showtopic=5372)
+      - source: see Rajli_mlox.txt
         type: mlox
         data: Rajli_mlox.txt
 
