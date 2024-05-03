@@ -1,5 +1,6 @@
 modules:
-  - module_name: Rjali Romance
+  - name: Rjali
+    module_name: Rjali Romance
     description: Rjali NPC MOD is a romance add-on for the game Baldur's Gate II Extended Edition.
     components: []
     location:

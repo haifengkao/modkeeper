@@ -1,0 +1,7 @@
+modules:
+  - name: ImoenRomance
+    module_name: Imoen Romance
+    description: Yes, she is your sister. You can start a ToB character and check out the ToB romance content without needing a savefile. Simply act accordingly when you summon Imoen. There are always things to talk about with Imoen, even if she doesn't initiate the conversation. Be sure to approach her and talk to her often.
+    components: []
+    location:
+      http: http://imoen.blindmonkey.org/downloads.php

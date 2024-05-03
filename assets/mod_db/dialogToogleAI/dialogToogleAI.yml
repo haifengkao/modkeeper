@@ -1,5 +1,6 @@
 modules:
-  - module_name: dialogToogleAI
+  - name: dialogToogleAI
+    module_name: dialogToogleAI
     description: Hello! tipun from the Arcanecoast Team wrote a small mod that will solve the problem described above! After installing it, if the AI is enabled at the start of the dialogue, it simply turns off for the duration of the dialogue. When finished, it turns on. If it was initially disabled, then it remains disabled. (source http://forums.blackwyrmlair.net/index.php?showtopic=5372)
     components: [0]
     location:

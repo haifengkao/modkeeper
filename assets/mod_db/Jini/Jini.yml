@@ -1,6 +1,7 @@
 
 modules:
-  - module_name: Jini Romance
+  - name: Jini
+    module_name: Jini Romance
     description: Jini NPNPC mod is a romance add-on for the game Baldur's Gate Extended Edition, with the Siege of Dragonspear expansion pack. This is the prequel to the BG2EE Rjali mod. As of v2.0, multiple romance is supported at the firewall level. That is to say, nobody knows what is going on. (Well, Fay knows, but she isn't bruiting it about.) In TotSC, Branwen, Dynaheir, Sharteel are supported (as provided by the BG1 NPC Project mod). Also, Neera (BGEE), Isra (NPC MOD), and Sirene (NPC mod). In SoD, Corwin, Viconia, Neera, Safana (BGEE), and Sirene (NPC mod) are supported. Of course, Jini and Fay have romances that are totaly unaffected by all those others - except that Fay heckles you about them.
     components: []
     location:
