@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_resizable_container/flutter_resizable_container.dart';
-import 'package:modkeeper/file_service.dart';
-import 'package:modkeeper/logging_service.dart';
+import 'package:modkeeper/Services/file_service.dart';
+import 'package:modkeeper/Services/logging_service.dart';
 import 'package:modkeeper/Data/mod_db.dart';
 import 'package:modkeeper/mod_tab.dart';
 import 'package:modkeeper/module_selection_screen.dart';
-import 'package:modkeeper/service_locator.dart';
+import 'package:modkeeper/Services/service_locator.dart';
 import 'package:modkeeper/data/module_item.dart';
 import 'dart:io';
 import 'package:yaml/yaml.dart';

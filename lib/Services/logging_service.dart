@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class LoggingService extends ChangeNotifier {
   final List<String> _logs = [];
@@ -11,6 +12,10 @@ class LoggingService extends ChangeNotifier {
       _logs.removeAt(0);
     }
     print(message);
-    notifyListeners();
+
+    // avoid rebuild widget during widget rebuilt phase
+    SchedulerBinding.instance.scheduleFrameCallback((_) {
+      notifyListeners();
+    });
   }
 }

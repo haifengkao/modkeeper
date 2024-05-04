@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:modkeeper/service_locator.dart';
+import 'package:modkeeper/Services/logging_service.dart';
+import 'package:provider/provider.dart';
 
 class ModTab {
   final String title;
@@ -28,22 +29,24 @@ class LoggingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loggingService = ServiceLocator().loggingService;
-
-    return ListView.builder(
-      itemCount: loggingService.logs.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: SelectableText(
-            loggingService.logs[index],
-            style: const TextStyle(fontSize: 16),
-            cursorRadius: const Radius.circular(4),
-            enableInteractiveSelection: true,
-            toolbarOptions: const ToolbarOptions(
-              copy: true,
-              selectAll: true,
-            ),
-          ),
+    return Consumer<LoggingService>(
+      builder: (context, loggingService, _) {
+        return ListView.builder(
+          itemCount: loggingService.logs.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: SelectableText(
+                loggingService.logs[index],
+                style: const TextStyle(fontSize: 16),
+                cursorRadius: const Radius.circular(4),
+                enableInteractiveSelection: true,
+                toolbarOptions: const ToolbarOptions(
+                  copy: true,
+                  selectAll: true,
+                ),
+              ),
+            );
+          },
         );
       },
     );
