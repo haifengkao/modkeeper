@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:modkeeper/main.dart';
 
-import 'module_item.dart';
+import 'package:modkeeper/data/module_item.dart';
 
 class ModuleSelectionScreen extends StatefulWidget {
   final List<ModuleItem> modules;
@@ -21,17 +20,16 @@ class ModuleSelectionScreenState extends State<ModuleSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expandable List'),
-      ),
-      body: ListView.builder(
-        itemCount: widget.modules.length,
-        itemBuilder: (context, index) {
-          final module = widget.modules[index];
-          return ExpandableListItem(module: module);
-        },
-      )
-    );
+        appBar: AppBar(
+          title: const Text('Expandable List'),
+        ),
+        body: ListView.builder(
+          itemCount: widget.modules.length,
+          itemBuilder: (context, index) {
+            final module = widget.modules[index];
+            return ExpandableListItem(module: module);
+          },
+        ));
   }
 }
 
@@ -147,6 +145,7 @@ class ExpandableListItemState extends State<ExpandableListItem>
 
     return widget.module.components.every((component) => component.isSelected);
   }
+
   bool isAllUnselected() {
     if (widget.module.components.isEmpty) {
       return false;

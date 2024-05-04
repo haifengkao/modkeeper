@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modkeeper/main.dart';
+import 'package:modkeeper/service_locator.dart';
 
 class ModTab {
   final String title;
@@ -36,10 +36,10 @@ class LoggingWidget extends StatelessWidget {
         return ListTile(
           title: SelectableText(
             loggingService.logs[index],
-            style: TextStyle(fontSize: 16),
-            cursorRadius: Radius.circular(4),
+            style: const TextStyle(fontSize: 16),
+            cursorRadius: const Radius.circular(4),
             enableInteractiveSelection: true,
-            toolbarOptions: ToolbarOptions(
+            toolbarOptions: const ToolbarOptions(
               copy: true,
               selectAll: true,
             ),
