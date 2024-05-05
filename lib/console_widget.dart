@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:modkeeper/Services/external_process_service.dart';
+import 'package:provider/provider.dart';
 
 class ConsoleWidget extends StatefulWidget {
-  final ExternalProcessService weiduService;
-
-  const ConsoleWidget({super.key, required this.weiduService});
+  const ConsoleWidget({super.key});
 
   @override
-  _ConsoleWidgetState createState() => _ConsoleWidgetState();
+  State<ConsoleWidget> createState() => _ConsoleWidgetState();
 }
 
 class _ConsoleWidgetState extends State<ConsoleWidget> {
@@ -15,18 +14,13 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void dispose() {
-    widget.weiduService.stopProcess();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final weiduService = Provider.of<ExternalProcessService>(context);
     return Column(
       children: [
         Expanded(
           child: StreamBuilder<String>(
-            stream: widget.weiduService.output,
+            stream: weiduService.output,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView(
@@ -46,7 +40,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
               child: TextField(
                 controller: _inputController,
                 onSubmitted: (value) {
-                  widget.weiduService.input.add(value);
+                  weiduService.input.add(value);
                   _inputController.clear();
                 },
                 decoration: const InputDecoration(
@@ -56,7 +50,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
             ),
             ElevatedButton(
               onPressed: () {
-                widget.weiduService.input.add(_inputController.text);
+                weiduService.input.add(_inputController.text);
                 _inputController.clear();
               },
               child: const Text('Send'),

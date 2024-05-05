@@ -3,6 +3,7 @@ import 'package:flutter_resizable_container/flutter_resizable_container.dart';
 import 'package:modkeeper/Services/file_service.dart';
 import 'package:modkeeper/Services/logging_service.dart';
 import 'package:modkeeper/Data/mod_db.dart';
+import 'package:modkeeper/console_widget.dart';
 import 'package:modkeeper/mod_tab.dart';
 import 'package:modkeeper/module_selection_screen.dart';
 import 'package:modkeeper/Services/service_locator.dart';
@@ -10,6 +11,7 @@ import 'package:modkeeper/data/module_item.dart';
 import 'dart:io';
 import 'package:yaml/yaml.dart';
 import 'package:path/path.dart' as path;
+import 'Services/external_process_service.dart';
 import 'configuration_view.dart';
 import 'package:provider/provider.dart';
 import 'package:modkeeper/Utilities/utilities.dart';
@@ -34,8 +36,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => LoggingService(),
+    return MultiProvider(
+        providers: [
+        ChangeNotifierProvider(create: (context) => LoggingService()),
+    Provider(create: (context) => ExternalProcessService()),
+    ],
       child: Builder(
         builder: (context) {
           ServiceLocator().registerLoggingService(context);
@@ -92,6 +97,10 @@ class MyHomePageState extends State<MyHomePage> {
     );
   }
 
+   Widget createConsoleView() {
+      return ConsoleWidget();
+   }
+
   Widget createConfigurationView() {
     return ConfigurationView(
       onSaveConfiguration: (settings) {
@@ -133,7 +142,23 @@ class MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget resizeableContainer() {
+
+  Widget verticalResizeableContainer() {
+    return ResizableContainer(
+      direction: Axis.vertical,
+      dividerWidth: 10,
+      dividerColor: Colors.grey[300],
+      children: [
+        ResizableChildData(
+          startingRatio: 0.7,
+          minSize: 500,
+          child: horizontalResizeableContainer()
+        ),
+        ResizableChildData(startingRatio: 0.3, child: createConsoleView()),
+      ],
+    );
+  }
+  Widget horizontalResizeableContainer() {
     return ResizableContainer(
       direction: Axis.horizontal,
       dividerWidth: 10,
@@ -158,11 +183,12 @@ class MyHomePageState extends State<MyHomePage> {
             backgroundColor: Theme.of(context).primaryColorLight),
         body: Stack(
           children: [
-            resizeableContainer(),
+            verticalResizeableContainer(),
             if (showConfigurationView) createConfigurationView(),
           ],
         ));
   }
+
 }
 
 Future<List<ModuleItem>> loadModDbContent() async {
