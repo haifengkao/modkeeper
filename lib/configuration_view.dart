@@ -61,7 +61,6 @@ class ConfigurationViewState extends State<ConfigurationView> {
   @override
   void initState() {
     super.initState();
-    initializeData();
   }
 
   @override
@@ -78,22 +77,31 @@ class ConfigurationViewState extends State<ConfigurationView> {
       appBar: AppBar(
         title: const Text('Configuration'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ..._pathFields.map(buildPathField),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: saveConfiguration,
-                child: const Text('Save Configuration'),
+      body: FutureBuilder(
+        future: initializeData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ..._pathFields.map(buildPathField),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: saveConfiguration,
+                      child: const Text('Save Configuration'),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }
