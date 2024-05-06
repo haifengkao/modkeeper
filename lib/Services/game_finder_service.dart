@@ -77,9 +77,12 @@ class GameFinderService {
       // /Users/<user>/Library/Application\ Support/Steam/steamapps/common/Baldur\'s\ Gate\ Enhanced\ Edition
       // /Users/<user>/Library/Application\ Support/Steam/steamapps/common/Baldur\'s\ Gate\ II\ Enhanced\ Edition/
 
+      String homePath = Platform.environment['HOME'] ?? '';
+      String appsPath = path.join(homePath, 'Library/Application Support/Steam/steamapps/common');
+
       // Check predefined locations on macOS
-      String applicationSupport = (await getApplicationSupportDirectory()).path;
-      String gamePath = '$applicationSupport/Steam/steamapps/common/$gameName';
+      String gamePath = path.join(appsPath, gameName);
+
       if (await checkChitin(gamePath)) {
         return gamePath;
       }
