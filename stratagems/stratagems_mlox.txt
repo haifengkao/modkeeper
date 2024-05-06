@@ -1,0 +1,3 @@
+[Note] ;7230: Tougher chapter-five end battle
+     crossed out after suggestions from @Angel @Lightbringer @subtledoctor (source https://www.gibberlings3.net/forums/topic/31281-cahirs-eet-epic-run-mod-order-help-request/ )
+stratagems[7230]

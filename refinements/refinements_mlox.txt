@@ -1,0 +1,4 @@
+[Note] ;105: Cleric HLAs, 106: Druid HLAs
+    deleted based on advice from @subtledoctor (source https://www.gibberlings3.net/forums/topic/31281-cahirs-eet-epic-run-mod-order-help-request/ )
+refinements[105]
+refinements[106]
