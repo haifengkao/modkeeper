@@ -1,31 +1,30 @@
 
+//
+// pub enum GithubDescriptor {
+//   Release { release: Option<String>, asset: String },
+//   Commit { commit: String },
+//   Branch(GitBranch),
+//   Tag { tag: String },
+// }
+// pub struct GitBranch {
+//     pub branch: String,
+//     #[serde(default)]
+//     #[serde(with = "crate::module::refresh::RefreshConditionAsString")]
+//     pub refresh: RefreshCondition,
+// }
+
 class LocationItem {
   final String githubUser;
   final String repository;
-  final String? branch;
   final String? release;
   final String? asset;
+  final String? commit;
+  final String? branch;
   final String? refresh;
+  final String? tag;
 
-  LocationItem({
-    required this.githubUser,
-    required this.repository,
-    this.branch,
-    this.release,
-    this.asset,
-    this.refresh,
-  });
-
-  factory LocationItem.fromYaml(dynamic yaml) {
-    final Map<String, dynamic> yamlMap = Map<String, dynamic>.from(yaml);
-    return LocationItem(
-      githubUser: yamlMap['github_user'],
-      repository: yamlMap['repository'],
-      branch: yamlMap['branch'],
-      release: yamlMap['release'],
-      asset: yamlMap['asset'],
-      refresh: yamlMap['refresh'],
-    );
-  }
+  LocationItem({required this.githubUser, required this.repository, this.release, this.asset, this.commit, this.branch, this.refresh, this.tag});
 }
+
+
 

@@ -1,53 +1,32 @@
 
+import 'dart:collection';
+
 import 'component_item.dart';
 import 'location_item.dart';
 
+// the view state for the module cell
 class ModuleItem {
+  // Primary key: (modOrder, name)
+
+  // the order of the module in the list, 0 will be the first to be installed
+  final int modOrder;
+
+  // the tp2 file name. allow duplicates
   final String name;
+
+  // the module name which is displayed to user. allow duplicates
+  final String? moduleName;
+  // short description of the module, which will be displayed at the top of ModInfoScreen
   final String? description;
   final List<ComponentItem> components;
   final LocationItem? location;
 
   ModuleItem({
+    required this.modOrder,
     required this.name,
+    this.moduleName,
     this.description,
     required this.components,
     this.location,
   });
-
-  factory ModuleItem.fromYaml(dynamic yaml) {
-    final Map<String, dynamic> yamlMap = Map<String, dynamic>.from(yaml);
-
-    List<ComponentItem> components = [];
-    final dynamic componentsData = yamlMap['components'];
-
-    if (componentsData is List) {
-      components = componentsData
-          .map((component) => ComponentItem.fromYaml(component))
-          .toList();
-    } else if (componentsData is String) {
-      // ask does not have components
-      // e.g
-      //- name: infinity_ui
-      //  components: ask
-      //  location:
-      //  github_user: Renegade0
-      //  repository: InfinityUI
-      //  branch: main
-      //  refresh: 1week
-
-      // Handle the case when 'components' is a single string value
-      // You can customize this based on your requirements
-      components = [];
-    }
-
-    return ModuleItem(
-      name: yamlMap['name'],
-      description: yamlMap['description'],
-      components: components,
-      location: yamlMap['location'] != null
-          ? LocationItem.fromYaml(yamlMap['location'])
-          : null,
-    );
-  }
 }
