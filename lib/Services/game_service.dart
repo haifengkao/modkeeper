@@ -133,7 +133,7 @@ class GameService {
 
     // generate modkeeper-eet-bg1.yml or modkeeper-eet-bg2.yml
     command = await EnsureFileContentExists(
-        currentModDB.generateModdaModuleYml(),
+        currentModDB.selectedModules.toModdaRecipeYamlString(),
         gameInstallationPath,
         'modkeeper-eet-$gameType.yml')
         .getPendingCommand();

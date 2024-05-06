@@ -1,18 +1,67 @@
 import 'dart:collection';
-import 'dart:math';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:yaml/yaml.dart';
-import 'package:modkeeper/data/module_item.dart';
+import 'package:modkeeper/Serialization/mod_db_raw.dart';
+import 'package:modkeeper/Serialization/modda_recipe.dart';
+import 'package:modkeeper/Serialization/module_item_raw.dart';
+import 'module_view_item.dart';
 import 'package:yaml_writer/yaml_writer.dart';
+import 'location_item.dart';
 
-// the view state for ModuleSelectionScreen
+// the repository of modules
 class ModDB {
   // LinkedHashMap will keep the order of insertion
-  final LinkedHashMap<String, ModuleItem> moduleMap;
-  List<ModuleItem> get modules => moduleMap.values.toList();
+  final LinkedHashMap<String, ModuleViewItem> moduleMap;
+  List<ModuleViewItem> get moduleViewItems => moduleMap.values.toList();
 
-  ModDB({required this.moduleMap});
+  // the tp2 file will use same locationItem
+  final Map<String, LocationItem> locationItemMap;
+
+  ModDB({required this.moduleMap, required this.locationItemMap});
+
+  factory ModDB.fromModDBRaw(ModDBRaw modDBRaw) {
+    return ModDB.fromModuleItemRaws(modDBRaw.modules);
+  }
+
+  factory ModDB.fromModuleItemRaws(List<ModuleItemRaw> moduleItemRaws) {
+    final moduleMap = LinkedHashMap<String, ModuleViewItem>();
+    final locationItemMap = <String, LocationItem>{};
+
+    for (int i = 0; i < moduleItemRaws.length; i++) {
+      final moduleItemRaw = moduleItemRaws[i];
+      final moduleViewItem = ModuleViewItem.fromModuleItemRaw(i, moduleItemRaw);
+      if (moduleItemRaw.location != null) {
+        locationItemMap[moduleItemRaw.name] = LocationItem.fromLocationItemRaw(moduleItemRaw.location!);
+      }
+
+      moduleMap[moduleViewItem.name] = moduleViewItem;
+    }
+
+    return ModDB(moduleMap: moduleMap, locationItemMap: locationItemMap);
+  }
+
+  ModdaRecipe _toModdaRecipe() {
+
+    final List<ModuleItemRaw> moduleItemRaws = moduleViewItems.map (
+      (moduleViewItem) => ModuleItemRaw(
+        name: moduleViewItem.name,
+        moduleName: moduleViewItem.moduleName,
+        description: moduleViewItem.description,
+        components: moduleViewItem.components.map (
+          (componentViewItem) => componentViewItem.toComponentItemRaw()
+        ).toList(),
+        location: locationItemMap[moduleViewItem.name]?.toLocationItemRaw(),
+      )
+    ).toList();
+
+    return ModdaRecipe(global: GlobalItem.enUS, modules: moduleItemRaws);
+  }
+  String toModdaRecipeYamlString() {
+    final yamlWriter = YamlWriter();
+    final moddaRecipe = _toModdaRecipe();
+    return yamlWriter.write(moddaRecipe);
+  }
+
 }
+
 
 // EET Mod Install Order Guide
 // https://docs.google.com/spreadsheets/d/1tt4f-rKqkbk8ds694eJ1YcOjraZ2pISkkobqZ5yRcvI/edit#gid=676921267
@@ -60,8 +109,9 @@ extension ModDBExtension on ModDB {
     final bg1eetModules =
         moduleMap.values.where((module) => beforeEETMods.contains(module.name));
     return ModDB(
-        moduleMap: LinkedHashMap.fromIterable(bg1eetModules,
-            key: (module) => module.name));
+        moduleMap: LinkedHashMap
+            .fromIterable(bg1eetModules, key: (module) => module.name),
+        locationItemMap: locationItemMap);
   }
 
   ModDB get bg2eetModules {
@@ -69,8 +119,10 @@ extension ModDBExtension on ModDB {
     final bg2eetModules = moduleMap.values.where((module) =>
         !beforeEETMods.contains(module.name) || module.name == 'eefixpack');
     return ModDB(
-        moduleMap: LinkedHashMap.fromIterable(bg2eetModules,
-            key: (module) => module.name));
+        moduleMap: LinkedHashMap
+            .fromIterable(bg2eetModules, key: (module) => module.name),
+        locationItemMap: locationItemMap
+    );
   }
 
   ModDB get selectedModules {
@@ -79,7 +131,9 @@ extension ModDBExtension on ModDB {
             module.components.any((component) => component.isSelected))
         .toList();
     return ModDB(
-        moduleMap: LinkedHashMap.fromIterable(selectedModules,
-            key: (module) => module.name));
+        moduleMap: LinkedHashMap
+            .fromIterable(selectedModules, key: (module) => module.name),
+        locationItemMap: locationItemMap // I am too lazy to filter locationItemMap
+    );
   }
 }

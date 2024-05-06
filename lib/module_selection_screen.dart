@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:modkeeper/data/module_item.dart';
+import 'package:modkeeper/data/module_view_item.dart';
 
 class ModuleSelectionScreen extends StatefulWidget {
   final List<ModuleItem> modules;
