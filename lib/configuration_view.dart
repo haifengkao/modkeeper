@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:modkeeper/Services/configuration_service.dart';
+import 'package:modkeeper/Services/game_finder_service.dart';
 
 class PathField {
   final String label;
@@ -9,13 +11,14 @@ class PathField {
 
   PathField({
     required this.label,
-    this.initialPath = '',
+    required this.initialPath,
     required this.validator,
   });
 }
 
+
 class ConfigurationView extends StatefulWidget {
-  final Function(Map<String, String>) onSaveConfiguration;
+  final Function() onSaveConfiguration;
 
   const ConfigurationView({super.key, required this.onSaveConfiguration});
 
@@ -23,39 +26,42 @@ class ConfigurationView extends StatefulWidget {
   ConfigurationViewState createState() => ConfigurationViewState();
 }
 
-List<PathField> defaultPathSettings = [
-  PathField(
-    label: 'Baldur\'s Gate Enhanced Edition',
-    validator: validateGamePath,
-  ),
-  PathField(
-    label: 'Baldur\'s Gate II Enhanced Edition',
-    validator: validateGamePath,
-  ),
-  PathField(
-    label: 'Weidu Executable',
-    validator: validatePath,
-  ),
-  PathField(
-    label: 'Mod Download Folder',
-    validator: validatePath,
-  ),
-  PathField(
-    label: 'Mod Installation Folder',
-    validator: validatePath,
-  ),
-];
-
 class ConfigurationViewState extends State<ConfigurationView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final Map<String, TextEditingController> _controllers = {};
+  List<PathField> _pathFields = [];
+
+  Future<void> initializeData() async {
+    final settings = await ConfigurationService.getConfiguration();
+
+    _pathFields = [
+      PathField(
+        label: bg1eeGameName,
+        initialPath: settings.bg1eePath,
+        validator: validateGamePath,
+      ),
+      PathField(
+        label: bg2eeGameName,
+        initialPath: settings.bg2eePath,
+        validator: validateGamePath,
+      ),
+      PathField( // TODO: show "will create folder" if not exists
+        label: gameInstallationFolderText,
+        initialPath: settings.installationPath,
+        validator: (any) => true,
+      ),
+
+    ];
+    for (var field in _pathFields) {
+      _controllers[field.label] =
+          TextEditingController(text: settings.toMap()[field.label]);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    for (var field in defaultPathSettings) {
-      _controllers[field.label] = TextEditingController(text: field.initialPath);
-    }
+    initializeData();
   }
 
   @override
@@ -79,7 +85,7 @@ class ConfigurationViewState extends State<ConfigurationView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ...defaultPathSettings.map(buildPathField),
+              ..._pathFields.map(buildPathField),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: saveConfiguration,
@@ -120,7 +126,7 @@ class ConfigurationViewState extends State<ConfigurationView> {
             }
             return null;
           },
-          autovalidateMode: AutovalidateMode.onUserInteraction,  // Add this line
+          autovalidateMode: AutovalidateMode.onUserInteraction, // Add this line
         ),
         const SizedBox(height: 16),
       ],
@@ -140,10 +146,18 @@ class ConfigurationViewState extends State<ConfigurationView> {
     // don't validate at all
     // it's better let user try this app without proper settings
     // if (_formKey.currentState!.validate()) {
-      Map<String, String> pathValues = {for (var field in defaultPathSettings) field.label: _controllers[field.label]!.text};
-      widget.onSaveConfiguration(pathValues);
+
+    final settings = ConfigurationSetting(
+      bg1eePath: _controllers[bg1eeGameName]?.text ?? '',
+      bg2eePath: _controllers[bg2eeGameName]?.text ?? '',
+      installationPath: _controllers[gameInstallationFolderText]?.text ?? '',
+    );
+
+    ConfigurationService.saveConfiguration(settings);
+    widget.onSaveConfiguration();
   }
 }
+
 
 bool validateGamePath(String path) {
   return Directory(path).existsSync();
