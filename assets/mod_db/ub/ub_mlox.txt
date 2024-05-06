@@ -1,0 +1,4 @@
+[Conflict] ;24: Sarevok's Remorse -> according to BWP Guide it's not compatible with Ascension.
+    according to BWP Guide it's not compatible with Ascension.(Ref https://www.gibberlings3.net/forums/topic/31281-cahirs-eet-epic-run-mod-order-help-request/ )
+ub[24]
+Ascension

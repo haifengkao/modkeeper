@@ -1,0 +1,86 @@
+
+
+[Order] ; the order check should include bg1 mods, but remove eefixpack before check, because it duplicates in bg1 and bg2
+    install after bg1npc, bst, bg1ub, finchnpc (Ref EET mod install order guide)
+bg1npc
+c#brage
+
+[Order]
+    install after bg1npc, bst, bg1ub, finchnpc (Ref EET mod install order guide)
+bst
+c#brage
+
+[Order]
+    install after bg1npc, bst, bg1ub, finchnpc (Ref EET mod install order guide)
+bg1ub
+c#brage
+
+[Order]
+    install after bg1npc, bst, bg1ub, finchnpc (Ref EET mod install order guide)
+finchnpc
+c#brage
+
+[Requires]
+    If you install Brage's Redemption and NOT bgqe, install Brage's Sword before BG1NPC. With bgqe Brage's Redemption can be installed later. (Ref https://www.gibberlings3.net/forums/topic/31091-bg1npc-and-eet-install-order/)
+c#brage
+bgqe[11]
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+AC_QUEST
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+AjantisBG1
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+AjantisBG2
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+bg1re
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+bgqe
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+c#sodboabri
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+c#endlessbg1
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+EET
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+imoen4ever
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+ntotsc
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+sotsc
+c#brage
+
+[Order]
+    METADATA ~AFTER = AC_QUEST, AjantisBG1, AjantisBG2, BG1NPC, bg1re, bg1ub, bgqe, bst, c#sodboabri, c#endlessbg1, EET, FinchNPC, imoen4ever, ntotsc, sotsc, transitions~ (Ref https://github.com/Gitjas/Brages_Redemption/blob/master/c%23brage/c%23brage.tp2 )
+transitions
+c#brage

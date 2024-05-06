@@ -1,0 +1,3 @@
+[WARNINGS]
+    not needed for BGEE v2.5 (Ref https://www.gibberlings3.net/forums/topic/31281-cahirs-eet-epic-run-mod-order-help-request/ )
+BG1UB[1-10, 15, 20, 23, 24, 28]

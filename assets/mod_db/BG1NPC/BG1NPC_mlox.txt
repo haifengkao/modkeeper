@@ -1,0 +1,44 @@
+
+[Order]
+    BG1NPC is to be treated as an NPC mod, i.e. to be installed after quest mods. (Ref https://www.gibberlings3.net/forums/topic/31091-bg1npc-and-eet-install-order/ )
+<quest>
+BG1NPC
+
+[Conflict]
+    Install BG1NPC on BG1 only if using garrick-tt. But modkeeper currently do not support install BG1NPC on BG1 due to mod ordering issues (Ref EET mod install order guide)
+BG1NPC
+garrick-tt
+
+[Order] ; ~./BGQE/SETUP-BGQE.TP2~ #0 #11 // Brage's Sword: 27
+    If you install bgqe component "Brage's Sword", install bgqe before BG1NPC. (Ref https://www.gibberlings3.net/forums/topic/31091-bg1npc-and-eet-install-order/ )
+bgqe[11]
+BG1NPC
+
+[Order]
+    Install Before: BG1 friendship mods, ajantisbg1, PPE (Ref EET Mod Install Order Guide)
+BG1NPC
+ajantisbg1
+
+[Order]
+    Install Before: BG1 friendship mods, ajantisbg1, PPE (Ref EET Mod Install Order Guide)
+BG1NPC
+PPE
+
+[Conflict]
+    bg1ub:27 [Sarevok's Extended Diary] (Ref EET Mod Install Order Guide)
+BG1NPC
+bg1ub[27]
+
+
+[Order]
+    Install Before: BG1 friendship mods, ajantisbg1, PPE (Ref EET Mod Install Order Guide)
+BG1NPC
+XanBG1Friend
+
+[Order]
+    Install Before: BG1 friendship mods, ajantisbg1, PPE (Ref EET Mod Install Order Guide)
+BG1NPC
+coranbgfriend
+
+
+

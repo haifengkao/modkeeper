@@ -1,0 +1,4 @@
+[Conflict] ;85: Apply FnP Kits to NPCs
+    not needed. NPC_EE allows to choose a kit for each NPC. (source https://www.gibberlings3.net/forums/topic/31281-cahirs-eet-epic-run-mod-order-help-request/ )
+NPC_EE
+Faiths_and_Powers[85]

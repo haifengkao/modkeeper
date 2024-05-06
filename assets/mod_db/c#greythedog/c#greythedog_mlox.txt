@@ -1,0 +1,4 @@
+[Order]
+    Grey the Dog should be the last NPC mod for BG1 in install order.(Ref https://www.gibberlings3.net/forums/topic/31091-bg1npc-and-eet-install-order/ )
+<npc>
+c#greythedog

@@ -1,0 +1,10 @@
+[Conflict] ;2110: Treat all Innate Abilities as Non-Magical (Unaffected by Wild/Dead Magic and Silence)
+    potential compatibility issue with Faiths & Powers (source https://www.gibberlings3.net/forums/topic/31281-cahirs-eet-epic-run-mod-order-help-request/ )
+Faiths_and_Powers
+klatu[2110]
+
+[Conflict] ;2390: Paladins Use IWD-HoW Spell Progression Tables, 2400: Rangers Use IWD-HoW Spell Progression Tables
+    overlapping with Faiths & Powers, which introduce its own paladin spell progression tables (source https://www.gibberlings3.net/forums/topic/31281-cahirs-eet-epic-run-mod-order-help-request/ )
+Faiths_and_Powers
+cdtweaks[2390]
+cdtweaks[2400]
