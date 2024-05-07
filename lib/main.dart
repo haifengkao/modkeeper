@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_resizable_container/flutter_resizable_container.dart';
+import 'package:modkeeper/console_view_model.dart';
 import 'package:modkeeper/serialization/mod_db_raw.dart';
 import 'package:modkeeper/services/configuration_service.dart';
 import 'package:modkeeper/services/file_service.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoggingService()),
-        Provider(create: (context) => ExternalProcessService()),
+        Provider(create: (context) => ConsoleViewModel()),
         Provider(create: (context) => ConfigurationService())
       ],
       child: Builder(
