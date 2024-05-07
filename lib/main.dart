@@ -33,7 +33,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: FutureBuilder<MyHomePageViewState>(
+        future: loadHomePageViewState(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return MyHomePage(initialState: snapshot.data!);
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
     );
   }
 
@@ -60,22 +69,23 @@ class MyHomePageViewState {
   ModDB modDB;
   MyHomePageViewState({required this.showConfigurationView, required this.modDB});
 }
-
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final MyHomePageViewState initialState;
+
+  const MyHomePage({super.key, required this.initialState});
 
   @override
   MyHomePageState createState() => MyHomePageState();
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  MyHomePageViewState? _state;
+  late MyHomePageViewState _state;
 
   @override
   void initState() {
     super.initState();
+    _state = widget.initialState;
   }
-
 
   Scaffold homePageView(BuildContext context, MyHomePageViewState viewState) {
     return Scaffold(
@@ -94,14 +104,9 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureLoadingWidget<MyHomePageViewState>(
-      future: loadHomePageViewState(),
-      dataBuilder: (context, viewState) {
-        return ChangeNotifierProvider(
-          create: (context) => ModDBNotifier(viewState.modDB),
-          child: homePageView(context, viewState)
-        );
-      },
+    return ChangeNotifierProvider(
+      create: (context) => ModDBNotifier(_state.modDB),
+      child: homePageView(context, _state),
     );
   }
 
@@ -115,10 +120,12 @@ class MyHomePageState extends State<MyHomePage> {
       children: [
         ResizableChildData(
           startingRatio: 0.7,
-          minSize: 500,
+          minSize: 600,
           child: horizontalResizeableContainer(modDB),
         ),
-        ResizableChildData(startingRatio: 0.3, child: createConsoleView()),
+        ResizableChildData(startingRatio: 0.3,
+          minSize: 200,
+            child: createConsoleView()),
       ],
     );
   }
@@ -130,13 +137,16 @@ class MyHomePageState extends State<MyHomePage> {
       dividerColor: Colors.grey[300],
       children: [
         const ResizableChildData(
-          startingRatio: 0.3,
+          startingRatio: 0.4,
           minSize: 200,
           child: ModuleSelectionScreen(),
         ),
-        ResizableChildData(startingRatio: 0.65, child: createTabView()),
+        ResizableChildData(startingRatio: 0.5,
+            minSize: 300,
+            child: createTabView()),
         ResizableChildData(
-          startingRatio: 0.05,
+          startingRatio: 0.1,
+          minSize: 100,
           child: createRightToolbar(modDB),
         ),
       ],
@@ -194,7 +204,7 @@ class MyHomePageState extends State<MyHomePage> {
     return ConfigurationView(
       onSaveConfiguration: () {
         setState(() {
-          _state?.showConfigurationView = false;
+          _state.showConfigurationView = false;
         });
       },
     );
