@@ -20,6 +20,10 @@ class PendingCommand {
   final List<Function> commands;
 
   PendingCommand({required this.description, required this.commands});
+
+  String toString() {
+    return description;
+  }
 }
 
 Future<void> copyAndMakeExecutable(

@@ -32,6 +32,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(fontSize: 16), // Adjust the font size for bodyLarge
+          bodyMedium: TextStyle(fontSize: 14), // Adjust the font size for bodyMedium
+          // Adjust other text styles as needed
+        ),
       ),
       home: FutureBuilder<MyHomePageViewState>(
         future: loadHomePageViewState(),
@@ -137,7 +142,7 @@ class MyHomePageState extends State<MyHomePage> {
       dividerColor: Colors.grey[300],
       children: [
         const ResizableChildData(
-          startingRatio: 0.4,
+          startingRatio: 0.45,
           minSize: 200,
           child: ModuleSelectionScreen(),
         ),
@@ -145,8 +150,8 @@ class MyHomePageState extends State<MyHomePage> {
             minSize: 300,
             child: createTabView()),
         ResizableChildData(
-          startingRatio: 0.1,
-          minSize: 100,
+          startingRatio: 0.05,
+          minSize: 80,
           child: createRightToolbar(modDB),
         ),
       ],
@@ -164,7 +169,7 @@ class MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.settings, size: iconSize),
             onPressed: () {
               setState(() {
-                _state?.showConfigurationView = !(_state?.showConfigurationView ?? true);
+                _state.showConfigurationView = !(_state.showConfigurationView ?? true);
               });
             },
           ),
@@ -184,7 +189,20 @@ class MyHomePageState extends State<MyHomePage> {
                   modDB: modDB,
                 );
 
-                final pendingCommands = await bg1GameService.run();
+                final pendingCommands1 = await bg1GameService.run();
+
+                // Create an instance of GameService
+                final bg2GameService = GameService(
+                  gameType: GameType.bg2ee,
+                  configuration: configuration,
+                  modDB: modDB,
+                );
+
+                final pendingCommands2 = await bg2GameService.run();
+
+                final pendingCommands = pendingCommands1 + pendingCommands2;
+                ServiceLocator().loggingService.log(pendingCommands.toString());
+                print(pendingCommands.map((e) => e.description).toList());
               }
               catch (e) {
                 print(e);

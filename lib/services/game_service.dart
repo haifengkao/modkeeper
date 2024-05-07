@@ -52,6 +52,7 @@ class GameService {
   Future<List<PendingCommand>> run() async {
     if (currentModDB.isEmpty) {
       // no mods to install
+      ServiceLocator().loggingService.log('No mods to install for $gameType');
       return [];
     }
 
