@@ -1,4 +1,3 @@
-import 'package:yaml/yaml.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'location_item_raw.g.dart';

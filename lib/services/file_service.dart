@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:modkeeper/Services/service_locator.dart';
+import 'package:modkeeper/services/service_locator.dart';
 import 'package:path/path.dart' as path;
 
 class ConsoleCommand {

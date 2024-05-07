@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:modkeeper/Services/configuration_service.dart';
-import 'package:modkeeper/Services/game_finder_service.dart';
+import 'package:modkeeper/services/configuration_service.dart';
+import 'package:modkeeper/services/game_finder_service.dart';
 
 class PathField {
   final String label;

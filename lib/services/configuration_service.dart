@@ -1,10 +1,10 @@
 
 import 'dart:io';
 
-import 'package:modkeeper/Services/file_service.dart';
+import 'package:modkeeper/services/file_service.dart';
 import 'package:yaml/yaml.dart';
-import 'package:modkeeper/Services/game_finder_service.dart';
-import 'package:modkeeper/Services/service_locator.dart';
+import 'package:modkeeper/services/game_finder_service.dart';
+import 'package:modkeeper/services/service_locator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml_writer/yaml_writer.dart';

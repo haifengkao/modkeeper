@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:modkeeper/Services/service_locator.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:modkeeper/services/service_locator.dart';
 import 'package:win32_registry/win32_registry.dart';
 import 'package:path/path.dart' as path;
 

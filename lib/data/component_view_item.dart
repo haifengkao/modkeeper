@@ -1,11 +1,11 @@
 
 // to display the component in the list view
-import 'package:modkeeper/Serialization/component_item_raw.dart';
+import 'package:modkeeper/serialization/component_item_raw.dart';
 
 class ComponentViewItem {
   final String? componentName;
   final int index;
-  bool isSelected;
+  final bool isSelected;
 
   ComponentViewItem({
     this.componentName,
@@ -24,6 +24,16 @@ class ComponentViewItem {
     return ComponentItemRaw(
       componentName: componentName,
       index: index,
+    );
+  }
+
+  selected(bool enabled) {}
+
+  ComponentViewItem selecting(bool enabled) {
+    return ComponentViewItem(
+      componentName: componentName,
+      index: index,
+      isSelected: enabled,
     );
   }
 }

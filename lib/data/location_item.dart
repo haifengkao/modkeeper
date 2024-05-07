@@ -14,7 +14,7 @@
 // }
 
 // to generate the modda install yml
-import 'package:modkeeper/Serialization/location_item_raw.dart';
+import 'package:modkeeper/serialization/location_item_raw.dart';
 
 class LocationItem {
   final String githubUser;

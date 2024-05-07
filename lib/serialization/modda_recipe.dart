@@ -13,6 +13,8 @@ class GlobalItem {
   List<String> langPreferences;
 
   GlobalItem({required this.langDir, required this.langPreferences});
+  factory GlobalItem.fromJson(Map<String, dynamic> json) => _$GlobalItemFromJson(json);
+  Map<String, dynamic> toJson() => _$GlobalItemToJson(this);
 }
 
 @JsonSerializable()

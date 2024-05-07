@@ -1,42 +1,43 @@
-import 'dart:collection';
-import 'package:modkeeper/Serialization/mod_db_raw.dart';
-import 'package:modkeeper/Serialization/modda_recipe.dart';
-import 'package:modkeeper/Serialization/module_item_raw.dart';
+import 'package:modkeeper/serialization/mod_db_raw.dart';
+import 'package:modkeeper/serialization/modda_recipe.dart';
+import 'package:modkeeper/serialization/module_item_raw.dart';
 import 'module_view_item.dart';
+import 'component_view_item.dart';
 import 'package:yaml_writer/yaml_writer.dart';
 import 'location_item.dart';
 
 // the repository of modules
 class ModDB {
-  // LinkedHashMap will keep the order of insertion
-  final LinkedHashMap<String, ModuleViewItem> moduleMap;
-  List<ModuleViewItem> get moduleViewItems => moduleMap.values.toList();
+  final List<ModuleViewItem> moduleViewItems;
 
-  // the tp2 file will use same locationItem
+  // the tp2 file with the same name will use same locationItem
   final Map<String, LocationItem> locationItemMap;
 
-  ModDB({required this.moduleMap, required this.locationItemMap});
+  ModDB({required this.moduleViewItems, required this.locationItemMap});
 
   factory ModDB.fromModDBRaw(ModDBRaw modDBRaw) {
     return ModDB.fromModuleItemRaws(modDBRaw.modules);
   }
 
   factory ModDB.fromModuleItemRaws(List<ModuleItemRaw> moduleItemRaws) {
-    final moduleMap = LinkedHashMap<String, ModuleViewItem>();
     final locationItemMap = <String, LocationItem>{};
 
-    for (int i = 0; i < moduleItemRaws.length; i++) {
-      final moduleItemRaw = moduleItemRaws[i];
-      final moduleViewItem = ModuleViewItem.fromModuleItemRaw(i, moduleItemRaw);
-      if (moduleItemRaw.location != null) {
-        locationItemMap[moduleItemRaw.name] = LocationItem.fromLocationItemRaw(moduleItemRaw.location!);
+    final List<ModuleViewItem> modules = moduleItemRaws.asMap().entries.map(
+      (entry) {
+        final moduleItemRaw = entry.value;
+        final modOrder = entry.key;
+        final moduleViewItem = ModuleViewItem.fromModuleItemRaw(modOrder, moduleItemRaw);
+        if (locationItemMap[moduleItemRaw.name] == null && moduleItemRaw.location != null) {
+          locationItemMap[moduleItemRaw.name] = LocationItem.fromLocationItemRaw(moduleItemRaw.location!);
+        }
+        return moduleViewItem;
       }
+    ).toList();
 
-      moduleMap[moduleViewItem.name] = moduleViewItem;
-    }
-
-    return ModDB(moduleMap: moduleMap, locationItemMap: locationItemMap);
+    return ModDB(moduleViewItems: modules, locationItemMap: locationItemMap);
   }
+
+  bool get isEmpty => moduleViewItems.isEmpty;
 
   ModdaRecipe _toModdaRecipe() {
 
@@ -54,12 +55,24 @@ class ModDB {
 
     return ModdaRecipe(global: GlobalItem.enUS, modules: moduleItemRaws);
   }
+
   String toModdaRecipeYamlString() {
     final yamlWriter = YamlWriter();
     final moddaRecipe = _toModdaRecipe();
     return yamlWriter.write(moddaRecipe);
   }
+  void selectComponent(ModuleViewItem module, ComponentViewItem component, bool enabled) {
+    assert(moduleViewItems.contains(module));
 
+    moduleViewItems[module.modOrder] = moduleViewItems[module.modOrder].selectingComponent(component, enabled);
+
+  }
+
+  void selectWholeModule(ModuleViewItem module, bool enabled) {
+   assert(moduleViewItems.contains(module));
+
+    moduleViewItems[module.modOrder] = moduleViewItems[module.modOrder].selectingAllComponents(enabled);
+  }
 }
 
 
@@ -107,32 +120,29 @@ const Set<String> beforeEETMods = {
 extension ModDBExtension on ModDB {
   ModDB get bg1eetModules {
     final bg1eetModules =
-        moduleMap.values.where((module) => beforeEETMods.contains(module.name));
+        moduleViewItems.where((module) => beforeEETMods.contains(module.name)).toList();
     return ModDB(
-        moduleMap: LinkedHashMap
-            .fromIterable(bg1eetModules, key: (module) => module.name),
+        moduleViewItems: bg1eetModules,
         locationItemMap: locationItemMap);
   }
 
   ModDB get bg2eetModules {
     // eefixpack exists for all infinity engine games
-    final bg2eetModules = moduleMap.values.where((module) =>
-        !beforeEETMods.contains(module.name) || module.name == 'eefixpack');
+    final bg2eetModules = moduleViewItems.where((module) =>
+        !beforeEETMods.contains(module.name) || module.name == 'eefixpack').toList();
     return ModDB(
-        moduleMap: LinkedHashMap
-            .fromIterable(bg2eetModules, key: (module) => module.name),
+        moduleViewItems: bg2eetModules,
         locationItemMap: locationItemMap
     );
   }
 
   ModDB get selectedModules {
-    final selectedModules = moduleMap.values
+    final selectedModules = moduleViewItems
         .where((module) =>
             module.components.any((component) => component.isSelected))
         .toList();
     return ModDB(
-        moduleMap: LinkedHashMap
-            .fromIterable(selectedModules, key: (module) => module.name),
+        moduleViewItems: selectedModules,
         locationItemMap: locationItemMap // I am too lazy to filter locationItemMap
     );
   }

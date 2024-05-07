@@ -1,11 +1,11 @@
 
-import 'package:modkeeper/Data/mod_db.dart';
-import 'package:modkeeper/Services/configuration_service.dart';
-import 'package:modkeeper/Services/file_service.dart';
-import 'package:modkeeper/Services/service_locator.dart';
+import 'package:modkeeper/data/mod_db.dart';
+import 'package:modkeeper/services/configuration_service.dart';
+import 'package:modkeeper/services/file_service.dart';
+import 'package:modkeeper/services/service_locator.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
-import 'package:modkeeper/Services/game_finder_service.dart';
+import 'package:modkeeper/services/game_finder_service.dart';
 
 // execute side effects to ensure game folder is in expected state
 class GameService {
@@ -50,7 +50,7 @@ class GameService {
         required this.modDB});
 
   Future<List<PendingCommand>> run() async {
-    if (currentModDB.moduleMap.isEmpty) {
+    if (currentModDB.isEmpty) {
       // no mods to install
       return [];
     }

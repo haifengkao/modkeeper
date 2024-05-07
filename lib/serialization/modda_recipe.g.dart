@@ -6,11 +6,12 @@ part of 'modda_recipe.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GlobalItem _$GlobalItemFromJson(Map<String, dynamic> json) => GlobalItem()
-  ..langDir = json['langDir'] as String
-  ..langPreferences = (json['langPreferences'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList();
+GlobalItem _$GlobalItemFromJson(Map<String, dynamic> json) => GlobalItem(
+      langDir: json['langDir'] as String,
+      langPreferences: (json['langPreferences'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );
 
 Map<String, dynamic> _$GlobalItemToJson(GlobalItem instance) =>
     <String, dynamic>{

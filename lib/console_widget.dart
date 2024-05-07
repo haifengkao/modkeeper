@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modkeeper/Services/external_process_service.dart';
+import 'package:modkeeper/services/external_process_service.dart';
 import 'package:provider/provider.dart';
 
 class ConsoleWidget extends StatefulWidget {
@@ -13,9 +13,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
   final TextEditingController _inputController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  @override
-  Widget build(BuildContext context) {
-    final weiduService = Provider.of<ExternalProcessService>(context);
+  Column mainView(ExternalProcessService weiduService) {
     return Column(
       children: [
         Expanded(
@@ -59,5 +57,11 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
         ),
       ],
     );
+  }
+  @override
+  Widget build(BuildContext context) {
+    final weiduService = Provider.of<ExternalProcessService>(context);
+
+    return mainView(weiduService);
   }
 }

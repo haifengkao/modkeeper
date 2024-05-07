@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modkeeper/Services/logging_service.dart';
+import 'package:modkeeper/services/logging_service.dart';
 import 'package:provider/provider.dart';
 
 class ModTab {

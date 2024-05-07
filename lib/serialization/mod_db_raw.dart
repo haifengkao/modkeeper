@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'module_item_raw.dart';
-import 'location_item_raw.dart';
 
 import 'package:yaml/yaml.dart';
 part 'mod_db_raw.g.dart';

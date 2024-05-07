@@ -1,4 +1,4 @@
-import 'package:modkeeper/Serialization/module_item_raw.dart';
+import 'package:modkeeper/serialization/module_item_raw.dart';
 import 'component_view_item.dart';
 
 // the view state for the module cell
@@ -37,4 +37,25 @@ class ModuleViewItem {
     );
   }
 
+  ModuleViewItem selectingAllComponents(bool enabled) {
+    final updatedComponents = components.map((component) => component.selecting(enabled)).toList();
+    return ModuleViewItem(
+      modOrder: modOrder,
+      name: name,
+      moduleName: moduleName,
+      description: description,
+      components: updatedComponents,
+    );
+  }
+
+  ModuleViewItem selectingComponent(ComponentViewItem component, bool enabled) {
+    final updatedComponents = components.map((c) => c == component ? c.selecting(enabled) : c).toList();
+    return ModuleViewItem(
+      modOrder: modOrder,
+      name: name,
+      moduleName: moduleName,
+      description: description,
+      components: updatedComponents,
+    );
+  }
 }
