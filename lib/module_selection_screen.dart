@@ -171,11 +171,18 @@ class CheckBoxWithText extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Checkbox(
-            value: isSelected,
-            onChanged: onCheck,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Transform.scale(
+                scale: 0.7,
+                child: Checkbox(
+                  value: isSelected,
+                  onChanged: onCheck,
+                ),
+              );
+            },
           ),
           Expanded(
             child: Text(
