@@ -27,27 +27,29 @@ List<ModTab> modTabs = [
 class LoggingWidget extends StatelessWidget {
   const LoggingWidget({super.key});
 
+  ListView mainView(BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.all(0.0),
+      itemCount: context.watch<LoggingService>().logs.length,
+      itemBuilder: (context, index) {
+        return SelectableText(
+            context.watch<LoggingService>().logs[index],
+            cursorRadius: const Radius.circular(4),
+            enableInteractiveSelection: true,
+            toolbarOptions: const ToolbarOptions(
+              copy: true,
+              selectAll: true,
+            ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LoggingService>(
       builder: (context, loggingService, _) {
-        return ListView.builder(
-          itemCount: loggingService.logs.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: SelectableText(
-                loggingService.logs[index],
-                style: const TextStyle(fontSize: 16),
-                cursorRadius: const Radius.circular(4),
-                enableInteractiveSelection: true,
-                toolbarOptions: const ToolbarOptions(
-                  copy: true,
-                  selectAll: true,
-                ),
-              ),
-            );
-          },
-        );
+        return mainView(context);
       },
     );
   }

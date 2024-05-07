@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:modkeeper/data/module_view_item.dart';
 import 'mod_db_notifier.dart';
 import 'package:provider/provider.dart';
@@ -12,21 +11,21 @@ class ModuleSelectionScreen extends StatefulWidget {
 }
 
 class ModuleSelectionScreenState extends State<ModuleSelectionScreen> {
-
   @override
   Widget build(BuildContext context) {
     final modDBNotifier = Provider.of<ModDBNotifier>(context);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Expandable List'),
-        ),
-        body: ListView.builder(
-          itemCount: modDBNotifier.modDB.moduleViewItems.length,
-          itemBuilder: (context, index) {
-            final module = modDBNotifier.modDB.moduleViewItems[index];
-            return ExpandableListItem(module: module);
-          },
-        ));
+      appBar: AppBar(
+        title: const Text('Expandable List'),
+      ),
+      body: ListView.builder(
+        itemCount: modDBNotifier.modDB.moduleViewItems.length,
+        itemBuilder: (context, index) {
+          final module = modDBNotifier.modDB.moduleViewItems[index];
+          return ExpandableListItem(module: module);
+        },
+      ),
+    );
   }
 }
 
@@ -81,23 +80,21 @@ class ExpandableListItemState extends State<ExpandableListItem>
 
     return Column(
       children: [
-        ListTile(
-          leading: Checkbox(
-            value: isAllSelected(),
-            onChanged: (value) {
-              setState(() {
-                modDBNotifier.selectWholeModule(widget.module, value!);
-
-                if (!isExpanded) {
-                  _toggleExpansion();
-                }
-              });
-            },
-          ),
-          title: Text(widget.module.name),
-          onTap: () {
+        CheckBoxWithText(
+          text: widget.module.name,
+          isSelected: isAllSelected(),
+          onClick: () {
             setState(() {
               _toggleExpansion();
+            });
+          },
+          onCheck: (value) {
+            setState(() {
+              modDBNotifier.selectWholeModule(widget.module, value!);
+
+              if (!isExpanded) {
+                _toggleExpansion();
+              }
             });
           },
         ),
@@ -108,11 +105,11 @@ class ExpandableListItemState extends State<ExpandableListItem>
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: widget.module.components.map((component) {
-                return CheckboxListTile(
-                  dense: true,
-                  title: Text(component.componentName ?? ''),
-                  value: component.isSelected,
-                  onChanged: (value) {
+                return CheckBoxWithText(
+                  text: component.componentName ?? '',
+                  isSelected: component.isSelected,
+                  onClick: () {},
+                  onCheck: (value) {
                     modDBNotifier.selectComponent(
                       widget.module,
                       component,
@@ -129,7 +126,6 @@ class ExpandableListItemState extends State<ExpandableListItem>
                       }
                     });
                   },
-                  controlAffinity: ListTileControlAffinity.leading,
                 );
               }).toList(),
             ),
@@ -138,7 +134,6 @@ class ExpandableListItemState extends State<ExpandableListItem>
       ],
     );
   }
-
 
   bool isAllSelected() {
     if (widget.module.components.isEmpty) {
@@ -154,5 +149,42 @@ class ExpandableListItemState extends State<ExpandableListItem>
     }
 
     return widget.module.components.every((component) => !component.isSelected);
+  }
+}
+
+class CheckBoxWithText extends StatelessWidget {
+  final String text;
+  final bool isSelected;
+  final VoidCallback onClick;
+  final ValueChanged<bool?> onCheck;
+
+  const CheckBoxWithText({
+    super.key,
+    required this.text,
+    required this.isSelected,
+    required this.onClick,
+    required this.onCheck,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onClick,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Checkbox(
+            value: isSelected,
+            onChanged: onCheck,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              softWrap: true,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
