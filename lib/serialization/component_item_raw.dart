@@ -2,7 +2,8 @@ import 'package:yaml/yaml.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'component_item_raw.g.dart';
 
-@JsonSerializable()
+
+@JsonSerializable(includeIfNull: false)
 class ComponentItemRaw {
   final String? componentName;
   final int index;

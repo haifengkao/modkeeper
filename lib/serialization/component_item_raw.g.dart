@@ -12,8 +12,16 @@ ComponentItemRaw _$ComponentItemRawFromJson(Map<String, dynamic> json) =>
       index: (json['index'] as num).toInt(),
     );
 
-Map<String, dynamic> _$ComponentItemRawToJson(ComponentItemRaw instance) =>
-    <String, dynamic>{
-      'componentName': instance.componentName,
-      'index': instance.index,
-    };
+Map<String, dynamic> _$ComponentItemRawToJson(ComponentItemRaw instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('componentName', instance.componentName);
+  val['index'] = instance.index;
+  return val;
+}

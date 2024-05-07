@@ -5,7 +5,6 @@ part 'modda_recipe.g.dart';
 // global:
 //   lang_dir: "fr_FR"
 //   lang_preferences: ["#rx#^fran[cç]ais", french, english, "american english"]
-
 @JsonSerializable()
 class GlobalItem {
   static final GlobalItem enUS = GlobalItem(langDir: "en_US", langPreferences: ["#rx#^english", "american english"]);

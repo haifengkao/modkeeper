@@ -19,11 +19,20 @@ ModuleItemRaw _$ModuleItemRawFromJson(Map<String, dynamic> json) =>
           : LocationItemRaw.fromJson(json['location'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ModuleItemRawToJson(ModuleItemRaw instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'moduleName': instance.moduleName,
-      'description': instance.description,
-      'components': instance.components,
-      'location': instance.location,
-    };
+Map<String, dynamic> _$ModuleItemRawToJson(ModuleItemRaw instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('moduleName', instance.moduleName);
+  writeNotNull('description', instance.description);
+  val['components'] = instance.components;
+  writeNotNull('location', instance.location);
+  return val;
+}

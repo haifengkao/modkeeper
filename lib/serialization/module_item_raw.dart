@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'module_item_raw.g.dart';
 
 // the view state for the module cell
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class ModuleItemRaw {
   // the tp2 file name. allow duplicates
   final String name;
