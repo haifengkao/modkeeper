@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:modkeeper/PendingCommand/pending_command.dart';
+import 'pending_command.dart';
 import 'package:modkeeper/services/file_service.dart';
 import 'package:modkeeper/services/game_finder_service.dart';
 import 'package:modkeeper/services/service_locator.dart';

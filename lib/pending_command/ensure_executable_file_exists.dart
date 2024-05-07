@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:modkeeper/PendingCommand/pending_command.dart';
-import 'package:modkeeper/Services/service_locator.dart';
+import 'pending_command.dart';
+import 'package:modkeeper/services/service_locator.dart';
 import 'package:modkeeper/services/file_service.dart';
 import 'package:path/path.dart' as path;
 
