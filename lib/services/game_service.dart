@@ -1,4 +1,8 @@
-
+import 'package:modkeeper/PendingCommand/ensure_game_folder_exists.dart';
+import 'package:modkeeper/PendingCommand/ensure_file_content_exists.dart';
+import 'package:modkeeper/PendingCommand/ensure_executable_file_exists.dart';
+import 'package:modkeeper/PendingCommand/pending_command.dart';
+import 'package:modkeeper/utilities/weidu_log_parser.dart';
 import 'package:modkeeper/data/mod_db.dart';
 import 'package:modkeeper/services/configuration_service.dart';
 import 'package:modkeeper/services/file_service.dart';
@@ -6,6 +10,8 @@ import 'package:modkeeper/services/service_locator.dart';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:modkeeper/services/game_finder_service.dart';
+
+enum GameType { bg1ee, bg2ee }
 
 // execute side effects to ensure game folder is in expected state
 class GameService {
@@ -46,8 +52,8 @@ class GameService {
 
   GameService(
       {required this.gameType,
-        required this.configuration,
-        required this.modDB});
+      required this.configuration,
+      required this.modDB});
 
   Future<List<PendingCommand>> run() async {
     if (currentModDB.isEmpty) {
@@ -87,7 +93,9 @@ class GameService {
     var commands = <PendingCommand>[];
     PendingCommand? command;
 
-    command = await EnsureGameFolderExists(originalGamePath: originalGamePath, installationPath:gameInstallationPath)
+    command = await EnsureGameFolderExists(
+            originalGamePath: originalGamePath,
+            installationPath: gameInstallationPath)
         .getPendingCommands();
     if (command == null) {
       // the game folder already exists
@@ -124,9 +132,9 @@ class GameService {
 
     // generate and copy content to modda.yml
     command = await EnsureFileContentExists(
-        configuration.generateModdaConfigYml(),
-        gameInstallationPath,
-        'modda.yml')
+            configuration.generateModdaConfigYml(),
+            gameInstallationPath,
+            'modda.yml')
         .getPendingCommand();
     if (command != null) {
       commands.add(command);
@@ -134,9 +142,9 @@ class GameService {
 
     // generate modkeeper-eet-bg1.yml or modkeeper-eet-bg2.yml
     command = await EnsureFileContentExists(
-        currentModDB.selectedModules.toModdaRecipeYamlString(),
-        gameInstallationPath,
-        'modkeeper-eet-$gameType.yml')
+            currentModDB.selectedModules.toModdaRecipeYamlString(),
+            gameInstallationPath,
+            'modkeeper-eet-$gameType.yml')
         .getPendingCommand();
     if (command != null) {
       commands.add(command);

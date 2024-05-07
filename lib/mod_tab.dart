@@ -29,7 +29,7 @@ class LoggingWidget extends StatelessWidget {
 
   ListView mainView(BuildContext context) {
     return ListView.builder(
-      padding: EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(0.0),
       itemCount: context.watch<LoggingService>().logs.length,
       itemBuilder: (context, index) {
         return SelectableText(

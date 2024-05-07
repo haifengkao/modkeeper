@@ -12,10 +12,8 @@ import 'package:modkeeper/mod_tab.dart';
 import 'package:modkeeper/module_selection_screen.dart';
 import 'package:modkeeper/services/service_locator.dart';
 import 'package:yaml/yaml.dart';
-import 'package:modkeeper/services/external_process_service.dart';
 import 'configuration_view.dart';
 import 'package:provider/provider.dart';
-import 'package:modkeeper/utilities/utilities.dart';
 
 import 'mod_db_notifier.dart';
 
@@ -32,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyLarge: TextStyle(fontSize: 16), // Adjust the font size for bodyLarge
           bodyMedium: TextStyle(fontSize: 14), // Adjust the font size for bodyMedium
           // Adjust other text styles as needed
@@ -202,10 +200,14 @@ class MyHomePageState extends State<MyHomePage> {
 
                 final pendingCommands = pendingCommands1 + pendingCommands2;
                 ServiceLocator().loggingService.log(pendingCommands.toString());
-                print(pendingCommands.map((e) => e.description).toList());
+
+                // Execute the pending commands
+                for (final command in pendingCommands) {
+                  await command.execute();
+                }
               }
               catch (e) {
-                print(e);
+                ServiceLocator().loggingService.log("install error: $e");
               }
             },
           ),
