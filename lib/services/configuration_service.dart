@@ -12,6 +12,10 @@ import 'package:yaml_writer/yaml_writer.dart';
 const configFilename = 'modkeeper_config.yml';
 const gameInstallationFolderText = 'Game Installation Folder';
 
+const bg1eeGamePathKey = "bg1eeGamePath";
+const bg2eeGamePathKey = "bg2eeGamePath";
+const gameInstallationFolderKey = "gameInstallationFolder";
+
 // the configuration setting, the value might be empty or invalid
 class ConfigurationSetting {
   // the path to unmodded bg1 game
@@ -32,9 +36,9 @@ class ConfigurationSetting {
 
   Map<String, String> toMap() {
     return {
-      bg1eeGameName: bg1eePath,
-      bg2eeGameName: bg2eePath,
-      gameInstallationFolderText: installationPath,
+      bg1eeGamePathKey: bg1eePath,
+      bg2eeGamePathKey: bg2eePath,
+      gameInstallationFolderKey: installationPath,
     };
   }
 
@@ -83,9 +87,9 @@ class ConfigurationService {
       final configString = await configFile.readAsString();
       final configMap = getConfigMap(configString);
       return ConfigurationSetting(
-        bg1eePath: configMap[bg1eeGameName] ?? '',
-        bg2eePath: configMap[bg2eeGameName] ?? '',
-        installationPath: configMap[gameInstallationFolderText] ?? '',
+        bg1eePath: configMap[bg1eeGamePathKey] ?? '',
+        bg2eePath: configMap[bg2eeGamePathKey] ?? '',
+        installationPath: configMap[gameInstallationFolderKey] ?? '',
       );
     } else {
       // try to fill the default value
