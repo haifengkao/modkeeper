@@ -15,6 +15,7 @@ import 'package:yaml/yaml.dart';
 import 'configuration_view.dart';
 import 'package:provider/provider.dart';
 
+import 'install_mods.dart';
 import 'mod_db_notifier.dart';
 
 void main() {
@@ -167,7 +168,7 @@ class MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.settings, size: iconSize),
             onPressed: () {
               setState(() {
-                _state.showConfigurationView = !(_state.showConfigurationView ?? true);
+                _state.showConfigurationView = !_state.showConfigurationView;
               });
             },
           ),
@@ -176,39 +177,7 @@ class MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.play_arrow, size: iconSize),
             onPressed: () async {
-              try {
-                // Get the configuration
-                final configuration = await ConfigurationService.getConfiguration();
-
-                // Create an instance of GameService
-                final bg1GameService = GameService(
-                  gameType: GameType.bg1ee,
-                  configuration: configuration,
-                  modDB: modDB,
-                );
-
-                final pendingCommands1 = await bg1GameService.run();
-
-                // Create an instance of GameService
-                final bg2GameService = GameService(
-                  gameType: GameType.bg2ee,
-                  configuration: configuration,
-                  modDB: modDB,
-                );
-
-                final pendingCommands2 = await bg2GameService.run();
-
-                final pendingCommands = pendingCommands1 + pendingCommands2;
-                ServiceLocator().loggingService.log("will execute: " + pendingCommands.toString());
-
-                // Execute the pending commands
-                for (final command in pendingCommands) {
-                  await command.execute();
-                }
-              }
-              catch (e) {
-                ServiceLocator().loggingService.log("install error: $e");
-              }
+              await installMods(modDB);
             },
           ),
           const Spacer(),
@@ -216,6 +185,7 @@ class MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
   Widget createConsoleView() {
     return const ConsoleWidget();
   }
