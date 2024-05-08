@@ -1,5 +1,6 @@
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:modkeeper/serialization/modda_recipe.dart';
 import 'module_item_raw.dart';
 part 'modda_recipe.g.dart';
 // global:
@@ -25,4 +26,12 @@ class ModdaRecipe {
 
   factory ModdaRecipe.fromJson(Map<String, dynamic> json) => _$ModdaRecipeFromJson(json);
   Map<String, dynamic> toJson() => _$ModdaRecipeToJson(this);
+
+  factory ModdaRecipe.fromYaml(dynamic yaml) {
+    final Map<String, dynamic> yamlMap = Map<String, dynamic>.from(yaml);
+    return ModdaRecipe(
+      global: GlobalItem(langDir: yamlMap['global']['lang_dir'], langPreferences: List<String>.from(yamlMap['global']['lang_preferences'])),
+      modules: List<ModuleItemRaw>.from(yamlMap['modules'].map((e) => ModuleItemRaw.fromYaml(e))),
+    );
+  }
 }
