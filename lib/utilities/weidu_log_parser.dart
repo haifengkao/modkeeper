@@ -30,19 +30,27 @@ class WeiduLogParser {
     for (final line in lines) {
       if (line.startsWith('~') && line.contains('~')) {
         final parts = line.split('~');
-        final tp2File = parts[1].trim();
-        final languageNumber = int.parse(parts[2].split('#')[1].trim());
-        final componentNumber =
-        int.parse(parts[3].split('#')[1].split(' ')[0].trim());
-        final componentName = parts[3].split('//')[1].trim();
+        if (parts.length >= 3) {
+          final tp2File = parts[1].trim();
+          final languageAndComponent = parts[2].split('#');
+          if (languageAndComponent.length >= 3) {
+            final languageNumber = int.parse(languageAndComponent[1].trim());
+            final componentParts = languageAndComponent[2].split('//');
+            if (componentParts.length >= 2) {
+              final componentNumber = int.parse(componentParts[0].trim());
+              final componentName = componentParts[1].trim();
 
-        components.add(
-          WeiduComponentItem(
-              tp2File: tp2File,
-              componentNumber: componentNumber,
-              componentName: componentName,
-              languageNumber: languageNumber),
-        );
+              components.add(
+                WeiduComponentItem(
+                  tp2File: tp2File,
+                  componentNumber: componentNumber,
+                  componentName: componentName,
+                  languageNumber: languageNumber,
+                ),
+              );
+            }
+          }
+        }
       }
     }
 
