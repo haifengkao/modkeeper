@@ -1,0 +1,7 @@
+modules:
+  - name: EET_BGEE_AI_Denoised_Areas
+    components: ask
+    location:
+      github_user: haifengkao
+      repository: EET_BGEE_AI_Denoised_Areas
+      tag: v0.0.1

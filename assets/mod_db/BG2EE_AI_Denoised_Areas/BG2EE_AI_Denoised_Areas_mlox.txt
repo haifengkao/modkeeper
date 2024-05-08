@@ -1,0 +1,5 @@
+[order]
+    You need to install the Denoised Areas first and then BGGO. But this will result in you having a mixture of high resolution areas and normal ones. I have not tested it though. (Ref https://www.gibberlings3.net/forums/topic/36946-baldurs-gate-graphical-overhaul-bggo-for-eet-bgt-tutu-bgee/ )
+EET_BGEE_AI_Denoised_Areas
+BG2EE_AI_Denoised_Areas
+bggo

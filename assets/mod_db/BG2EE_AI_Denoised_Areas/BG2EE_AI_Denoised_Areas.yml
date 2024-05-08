@@ -1,0 +1,7 @@
+modules:
+  - name: BG2EE_AI_Denoised_Areas
+    components: ask
+    location:
+      github_user: haifengkao
+      repository: BG2EE_AI_Denoised_Areas
+      tag: v0.0.1
