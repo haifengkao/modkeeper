@@ -5,7 +5,7 @@ import 'package:yaml/yaml.dart';
 part 'mod_db_raw.g.dart';
 
 // the view state for ModuleSelectionScreen
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
 class ModDBRaw {
   // LinkedHashMap will keep the order of insertion
   List<ModuleItemRaw> modules;

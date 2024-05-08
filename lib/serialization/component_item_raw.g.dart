@@ -8,7 +8,7 @@ part of 'component_item_raw.dart';
 
 ComponentItemRaw _$ComponentItemRawFromJson(Map<String, dynamic> json) =>
     ComponentItemRaw(
-      componentName: json['componentName'] as String?,
+      componentName: json['component_name'] as String?,
       index: (json['index'] as num).toInt(),
     );
 
@@ -21,7 +21,7 @@ Map<String, dynamic> _$ComponentItemRawToJson(ComponentItemRaw instance) {
     }
   }
 
-  writeNotNull('componentName', instance.componentName);
+  writeNotNull('component_name', instance.componentName);
   val['index'] = instance.index;
   return val;
 }

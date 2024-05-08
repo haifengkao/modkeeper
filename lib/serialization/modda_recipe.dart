@@ -5,7 +5,7 @@ part 'modda_recipe.g.dart';
 // global:
 //   lang_dir: "fr_FR"
 //   lang_preferences: ["#rx#^fran[cç]ais", french, english, "american english"]
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
 class GlobalItem {
   static final GlobalItem enUS = GlobalItem(langDir: "en_US", langPreferences: ["#rx#^english", "american english"]);
   String langDir;
@@ -16,9 +16,9 @@ class GlobalItem {
   Map<String, dynamic> toJson() => _$GlobalItemToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
 class ModdaRecipe {
-
+  String version = "1";
   GlobalItem global;
   List<ModuleItemRaw> modules;
   ModdaRecipe({required this.global, required this.modules});

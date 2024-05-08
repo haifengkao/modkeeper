@@ -1,7 +1,7 @@
-import 'package:modkeeper/PendingCommand/ensure_game_folder_exists.dart';
-import 'package:modkeeper/PendingCommand/ensure_file_content_exists.dart';
-import 'package:modkeeper/PendingCommand/ensure_executable_file_exists.dart';
-import 'package:modkeeper/PendingCommand/pending_command.dart';
+import 'package:modkeeper/pending_command/ensure_game_folder_exists.dart';
+import 'package:modkeeper/pending_command/ensure_file_content_exists.dart';
+import 'package:modkeeper/pending_command/ensure_executable_file_exists.dart';
+import 'package:modkeeper/pending_command/pending_command.dart';
 import 'package:modkeeper/utilities/weidu_log_parser.dart';
 import 'package:modkeeper/data/mod_db.dart';
 import 'package:modkeeper/services/configuration_service.dart';
@@ -31,9 +31,9 @@ class GameService {
   ModDB get currentModDB {
     switch (gameType) {
       case GameType.bg1ee:
-        return modDB.bg1eetModules;
+        return modDB.selectedModules.bg1eetModules;
       case GameType.bg2ee:
-        return modDB.bg2eetModules;
+        return modDB.selectedModules.bg2eetModules;
     }
   }
 
@@ -61,6 +61,9 @@ class GameService {
       ServiceLocator().loggingService.log('No mods to install for $gameType');
       return [];
     }
+
+    ServiceLocator().loggingService.log(
+        'will install ${currentModDB.moduleViewItems.map((e) => e.name).join(', ')}');
 
     return await ensureTheGameFolderIsExpected();
   }
@@ -142,7 +145,7 @@ class GameService {
 
     // generate modkeeper-eet-bg1.yml or modkeeper-eet-bg2.yml
     command = await EnsureFileContentExists(
-            currentModDB.selectedModules.toModdaRecipeYamlString(),
+            currentModDB.toModdaRecipeYamlString(),
             gameInstallationPath,
             'modkeeper-eet-$gameType.yml')
         .getPendingCommand();

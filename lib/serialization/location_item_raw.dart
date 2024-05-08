@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'location_item_raw.g.dart';
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
 class LocationItemRaw {
   final String githubUser;
   final String repository;

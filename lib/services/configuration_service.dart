@@ -42,6 +42,22 @@ class ConfigurationSetting {
   // extract_location: ../ModInstalls
   // weidu_path: ../weidu
   String generateModdaConfigYml() {
+    final Map<String, String> moddaConfig = {
+      'archive_cache': "../ModDownloads",
+      'extract_location': "../ModInstalls",
+      'weidu_path': "../weidu",
+    };
+
+    // Convert the configuration to YAML
+    String yamlString = YamlWriter().write(moddaConfig);
+    return yamlString;
+  }
+
+  // example
+  // Baldur's Gate Enhanced Edition: "/Users/<user>/Library/Application Support/Steam/steamapps/common/Baldur's Gate Enhanced Edition"
+  // Baldur's Gate II Enhanced Edition: "/Users/<user>/Library/Application Support/Steam/steamapps/common/Baldur's Gate II Enhanced Edition"
+  // Game Installation Folder: '/Users/<user>/Library/Application Support/com.example.modkeeper/ModKeeper'
+  String generateModKeeperConfigYml() {
     final pathValues = toMap();
 
     // Convert the configuration to YAML
@@ -90,7 +106,7 @@ class ConfigurationService {
 
   static void saveConfiguration(ConfigurationSetting setting) {
 
-    final yamlString = setting.generateModdaConfigYml();
+    final yamlString = setting.generateModKeeperConfigYml();
 
     // Get the path to the configuration file
     Future<String> configFilePath = getConfigFilePath();

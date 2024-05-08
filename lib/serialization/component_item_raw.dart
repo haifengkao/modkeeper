@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'component_item_raw.g.dart';
 
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(includeIfNull: false, fieldRename: FieldRename.snake)
 class ComponentItemRaw {
   final String? componentName;
   final int index;

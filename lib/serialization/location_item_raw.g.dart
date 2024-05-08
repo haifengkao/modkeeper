@@ -8,7 +8,7 @@ part of 'location_item_raw.dart';
 
 LocationItemRaw _$LocationItemRawFromJson(Map<String, dynamic> json) =>
     LocationItemRaw(
-      githubUser: json['githubUser'] as String,
+      githubUser: json['github_user'] as String,
       repository: json['repository'] as String,
       release: json['release'] as String?,
       asset: json['asset'] as String?,
@@ -20,7 +20,7 @@ LocationItemRaw _$LocationItemRawFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$LocationItemRawToJson(LocationItemRaw instance) {
   final val = <String, dynamic>{
-    'githubUser': instance.githubUser,
+    'github_user': instance.githubUser,
     'repository': instance.repository,
   };
 

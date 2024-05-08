@@ -199,7 +199,7 @@ class MyHomePageState extends State<MyHomePage> {
                 final pendingCommands2 = await bg2GameService.run();
 
                 final pendingCommands = pendingCommands1 + pendingCommands2;
-                ServiceLocator().loggingService.log(pendingCommands.toString());
+                ServiceLocator().loggingService.log("will execute: " + pendingCommands.toString());
 
                 // Execute the pending commands
                 for (final command in pendingCommands) {
